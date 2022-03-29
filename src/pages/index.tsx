@@ -47,7 +47,7 @@ const Home: NextPage = () => {
             size="lg"
             leftIcon={<Icon as={AiOutlineGoogle} />}
           >
-            <Text>Crie sua conta com o Google</Text>
+            <Text>Entre com a sua conta do Google</Text>
           </Button>
         </Stack>
       </Flex>
