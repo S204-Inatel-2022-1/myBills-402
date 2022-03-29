@@ -11,15 +11,17 @@ import {
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { AiOutlineGoogle } from "react-icons/ai";
 import { auth } from "../services/firebase";
+import { useRouter } from "next/router";
 
 const Home: NextPage = () => {
   const provider = new GoogleAuthProvider();
 
   const handleLogin = async () => {
     const user = await signInWithPopup(auth, provider);
-
-    console.log(user);
+    router.push("/dashboard");
   };
+
+  const router = useRouter();
 
   return (
     <SimpleGrid columns={2} h="100vh" bg="#1B1B1F">
