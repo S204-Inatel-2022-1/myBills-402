@@ -8,20 +8,22 @@ import {
   Text,
   Icon,
 } from "@chakra-ui/react";
-import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+
 import { AiOutlineGoogle } from "react-icons/ai";
-import { auth } from "../services/firebase";
+import { useFirebaseAuth } from "../contexts/FirebaseAuthContext";
+import { useEffect } from "react";
 import { useRouter } from "next/router";
 
 const Home: NextPage = () => {
-  const provider = new GoogleAuthProvider();
 
-  const handleLogin = async () => {
-    const user = await signInWithPopup(auth, provider);
-    router.push("/dashboard");
-  };
-
+  const { handleLogin, user } = useFirebaseAuth();
   const router = useRouter();
+
+  useEffect(() => {
+    if (user) {
+      router.push("/dashboard");
+    }
+  }, [user]);
 
   return (
     <SimpleGrid columns={2} h="100vh" bg="#1B1B1F">
