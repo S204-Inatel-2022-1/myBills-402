@@ -7,6 +7,7 @@ import {
   Stack,
   Text,
   Icon,
+  Spinner,
 } from "@chakra-ui/react";
 
 import { AiOutlineGoogle } from "react-icons/ai";
@@ -15,15 +16,29 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 
 const Home: NextPage = () => {
-
-  const { handleLogin, user } = useFirebaseAuth();
+  const { handleLogin, user, isAuthLoading } = useFirebaseAuth();
   const router = useRouter();
 
   useEffect(() => {
-    if (user) {
+    if (!isAuthLoading && user) {
       router.push("/dashboard");
     }
-  }, [user]);
+  }, [user, isAuthLoading]);
+
+  if (isAuthLoading) {
+    return (
+      <Flex
+        h="100vh"
+        bg="#1B1B1F"
+        alignItems="center"
+        justifyContent="center"
+        flexDir="column"
+      >
+        <Image src="/mybills.png" w="400px" mb={10} alt="My Bills" />
+        <Spinner size="lg" color="#DC1637" />
+      </Flex>
+    );
+  }
 
   return (
     <SimpleGrid columns={2} h="100vh" bg="#1B1B1F">
