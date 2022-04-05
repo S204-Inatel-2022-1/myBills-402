@@ -2,6 +2,7 @@ import { Button, Flex, Image, Spinner, Stack, Text } from "@chakra-ui/react";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { LoadingSplash } from "../components/LoadingSplash";
 import { useFirebaseAuth } from "../contexts/FirebaseAuthContext";
 
 const Dashboard: NextPage = () => {
@@ -15,18 +16,7 @@ const Dashboard: NextPage = () => {
   }, [user, isAuthLoading]);
 
   if (isAuthLoading) {
-    return (
-      <Flex
-        h="100vh"
-        bg="#1B1B1F"
-        alignItems="center"
-        justifyContent="center"
-        flexDir="column"
-      >
-        <Image src="/mybills.png" w="400px" mb={10} alt="My Bills" />
-        <Spinner size="lg" color="#DC1637" />
-      </Flex>
-    );
+    return <LoadingSplash />;
   }
 
   return (

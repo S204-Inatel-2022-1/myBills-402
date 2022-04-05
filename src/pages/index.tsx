@@ -14,6 +14,7 @@ import { AiOutlineGoogle } from "react-icons/ai";
 import { useFirebaseAuth } from "../contexts/FirebaseAuthContext";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
+import { LoadingSplash } from "../components/LoadingSplash";
 
 const Home: NextPage = () => {
   const { handleLogin, user, isAuthLoading } = useFirebaseAuth();
@@ -26,18 +27,7 @@ const Home: NextPage = () => {
   }, [user, isAuthLoading]);
 
   if (isAuthLoading) {
-    return (
-      <Flex
-        h="100vh"
-        bg="#1B1B1F"
-        alignItems="center"
-        justifyContent="center"
-        flexDir="column"
-      >
-        <Image src="/mybills.png" w="400px" mb={10} alt="My Bills" />
-        <Spinner size="lg" color="#DC1637" />
-      </Flex>
-    );
+    return <LoadingSplash />;
   }
 
   return (
