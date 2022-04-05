@@ -2,11 +2,12 @@ import { Button, Flex, Image, Spinner, Stack, Text } from "@chakra-ui/react";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { Header } from "../components/Header";
 import { LoadingSplash } from "../components/LoadingSplash";
 import { useFirebaseAuth } from "../contexts/FirebaseAuthContext";
 
 const Dashboard: NextPage = () => {
-  const { user, isAuthLoading, handleLogout } = useFirebaseAuth();
+  const { user, isAuthLoading } = useFirebaseAuth();
   const router = useRouter();
 
   useEffect(() => {
@@ -20,16 +21,7 @@ const Dashboard: NextPage = () => {
   }
 
   return (
-    <Flex flexDir="column">
-      <Flex>
-        <Image src={user?.avatar} borderRadius="50%" h={16} />
-        <Stack ml="1rem">
-          <Text>Olá {user?.name}</Text>
-          <Text>{user?.email}</Text>
-          <Button onClick={handleLogout}>Sair</Button>
-        </Stack>
-      </Flex>
-    </Flex>
+    <Header />
   );
 };
 
