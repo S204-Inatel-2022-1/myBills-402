@@ -21,7 +21,15 @@ const Dashboard: NextPage = () => {
   }
 
   return (
-    <Header />
+    <Flex
+      as="nav"
+      flexDir="column"
+    >
+      <Header />
+      <Text>
+        Dashboard
+      </Text>
+    </Flex>
   );
 };
 
