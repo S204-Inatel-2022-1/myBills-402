@@ -3,8 +3,6 @@ import { Button, Flex, IconButton, Image, Menu, MenuButton, MenuItem, MenuList, 
 import { useFirebaseAuth } from "../contexts/FirebaseAuthContext";
 
 export function Header() {
-    const { user, handleLogout } = useFirebaseAuth();
-
     return (
         <Flex
             as="nav"
@@ -15,7 +13,49 @@ export function Header() {
         >
             <Image src="/mybills.png" alt="MyBills" mb={5} />
             <Spacer />
-            <Flex
+            <UserInformation />
+            <DropDownMenu />
+        </Flex>
+    );
+}
+
+function UserInformation() {
+    const { user, handleLogout } = useFirebaseAuth();
+    return(
+        <Flex
+                justifyContent="center"
+                flexDir="column"
+                display={["none", "none", "flex"]}
+            >
+                <Flex
+                    marginBottom={3}
+                >
+                    <Image src={user?.avatar} borderRadius="50%" h={16} />
+                    <Stack ml="1rem">
+                        <Text
+                            fontSize="lg"
+                            fontWeight="bold"
+                        >Olá, {user?.name}</Text>
+                        <Text
+                            fontSize="lg"
+                            fontWeight="bold"
+                        >{user?.email}</Text>
+                    </Stack>
+                </Flex>
+                <Button
+                    onClick={handleLogout}
+                    colorScheme="red"
+                    fontWeight="bold"
+                    fontSize="lg"
+                >Sair</Button>
+
+            </Flex>
+    );
+}
+function DropDownMenu() {
+    const { user, handleLogout } = useFirebaseAuth();
+    return(
+    <Flex
                 w="100%"
                 padding={5}
                 bg="#1B1B1F"
@@ -45,36 +85,5 @@ export function Header() {
                     </MenuList>
                 </Menu>
             </Flex>
-            <Flex
-                justifyContent="center"
-                flexDir="column"
-                display={["none", "none", "flex"]}
-            >
-                <Flex
-                    marginBottom={3}
-                >
-                    <Image src={user?.avatar} borderRadius="50%" h={16} />
-                    <Stack ml="1rem">
-                        <Text
-                            fontSize="lg"
-                            fontWeight="bold"
-                        >Olá, {user?.name}</Text>
-                        <Text
-                            fontSize="lg"
-                            fontWeight="bold"
-                        >{user?.email}</Text>
-                    </Stack>
-                </Flex>
-                <Button
-                    onClick={handleLogout}
-                    colorScheme="red"
-                    fontWeight="bold"
-                    fontSize="lg"
-                >Sair</Button>
-
-            </Flex>
-
-        </Flex>
-
     );
 }
