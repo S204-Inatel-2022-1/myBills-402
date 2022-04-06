@@ -30,7 +30,7 @@ export function Header() {
       <Spacer />
       <Popover>
         <PopoverTrigger>
-          <Avatar cursor="pointer" src={user?.avatar} />
+          <Avatar name={user?.name} cursor="pointer" src={user?.avatar} />
         </PopoverTrigger>
         <PopoverContent
           mr="16px"
@@ -40,12 +40,7 @@ export function Header() {
           }}
         >
           <PopoverBody d="flex" flexDir="row" py="1rem">
-            <Avatar
-              name={user?.name}
-              src={user?.avatar}
-              borderRadius="50%"
-              h={16}
-            />
+            <Avatar name={user?.name} src={user?.avatar} />
             <Stack ml="1rem" justifyContent="center">
               <Text fontSize="lg" fontWeight="bold" color="#1B1B1F">
                 Olá, {user?.name}
