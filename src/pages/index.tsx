@@ -31,16 +31,21 @@ const Home: NextPage = () => {
   }
 
   return (
-    <SimpleGrid columns={2} h="100vh" bg="#1B1B1F">
-      <Flex bgImage="/myBillsBg.svg" bgSize="95%" bgRepeat="no-repeat"></Flex>
+    <SimpleGrid columns={[1, 1, 2]} h="100vh" bg="#1B1B1F">
       <Flex
-        alignItems="flex-start"
+        display={["none", "none", "flex"]}
+        bgImage="/myBillsBg.svg"
+        bgSize="95%"
+        bgRepeat="no-repeat"
+      ></Flex>
+      <Flex
+        alignItems={["center", "center", "flex-start"]}
         p={[5, 5, 20]}
         justifyContent="center"
         flexDir="column"
       >
         <Image src="/mybills.png" alt="MyBills" mb={10} />
-        <Stack gap={2}>
+        <Stack gap={2} alignItems={["center", "center", "flex-start"]}>
           <Text fontWeight="bold" fontSize="1.5rem" color="white">
             Bem-vindo
           </Text>
