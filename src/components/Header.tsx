@@ -21,7 +21,12 @@ export function Header() {
 
   return (
     <Flex as="nav" padding={5} w="100%" backgroundColor="#1B1B1F" color="white">
-      <Image src="/mybillsV2.svg" w={["200px","250px","350px"]} alt="MyBills" mb={5} />
+      <Image
+        src="/mybillsV2.svg"
+        w={["200px", "250px", "350px"]}
+        alt="MyBills"
+        mb={5}
+      />
       <Spacer />
       <Popover>
         <PopoverTrigger>
@@ -35,7 +40,12 @@ export function Header() {
           }}
         >
           <PopoverBody d="flex" flexDir="row" py="1rem">
-            <Image src={user?.avatar} borderRadius="50%" h={16} />
+            <Avatar
+              name={user?.name}
+              src={user?.avatar}
+              borderRadius="50%"
+              h={16}
+            />
             <Stack ml="1rem" justifyContent="center">
               <Text fontSize="lg" fontWeight="bold" color="#1B1B1F">
                 Olá, {user?.name}
