@@ -11,14 +11,33 @@ import {
   ModalOverlay,
   Stack,
   Text,
+  useToast,
 } from "@chakra-ui/react";
 import { BsArrowUpCircle, BsArrowDownCircle } from "react-icons/bs";
 import { useState } from "react";
 import { SelectorButton } from "./SelectorButton";
+import {
+  addDoc,
+  collection,
+  serverTimestamp,
+  Timestamp,
+} from "firebase/firestore";
+import { db } from "../services/firebase";
+import { CurrencyInput } from "./CurrencyInput";
+import { useFirebaseAuth } from "../contexts/FirebaseAuthContext";
 
 type NewTransactionModalProps = {
   isOpen: boolean;
   onClose: () => void;
+};
+
+type Transaction = {
+  authorId: string;
+  name: string;
+  price: number;
+  isDeposit: boolean;
+  category: string;
+  createdAt: Timestamp;
 };
 
 export function NewTransactionModal({
@@ -26,8 +45,50 @@ export function NewTransactionModal({
   onClose,
 }: NewTransactionModalProps) {
   const [name, setName] = useState("");
-  const [price, setPrice] = useState<number | null>(null);
+  const [price, setPrice] = useState("");
   const [isDeposit, setIsDeposit] = useState(true);
+  const { user } = useFirebaseAuth();
+  const toast = useToast();
+  const formatToNumber = (s: string) => Number(s.replace(",", "."));
+
+  async function handleCreateTransaction() {
+    if (!name.trim() || !price) {
+      return;
+    }
+
+    try {
+      await addDoc(collection(db, "transactions"), {
+        authorId: user?.id,
+        name,
+        price: formatToNumber(price),
+        isDeposit,
+        category: "food",
+        createdAt: Timestamp.now(),
+      } as Transaction);
+
+      setName("");
+      setPrice("");
+      setIsDeposit(true);
+      toast({
+        title: "Transação adicionada com sucesso",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+      });
+      onClose();
+    } catch (e) {
+      toast({
+        title: "Erro ao criar sua transação",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+
+      setName("");
+      setPrice("");
+      setIsDeposit(true);
+    }
+  }
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
@@ -49,31 +110,21 @@ export function NewTransactionModal({
                 borderBottom: "2px solid #DC1637",
               }}
             />
-            <Input
-              placeholder="Preço"
-              bg="#F4F5F6"
-              p="24px"
-              value={price ?? ""}
-              onChange={(e) => setPrice(parseInt(e.target.value))}
-              type="number"
-              _focus={{
-                borderBottom: "2px solid #DC1637",
-              }}
-            />
+            <CurrencyInput data={price} setData={setPrice} />
             <HStack w="100%">
               <SelectorButton
                 color="#03B252"
                 icon={BsArrowUpCircle}
                 label="Entrada"
                 isActive={isDeposit}
-                onClick={() => setIsDeposit(!isDeposit)}
+                onClick={() => setIsDeposit(true)}
               />
               <SelectorButton
                 color="#DC1637"
                 icon={BsArrowDownCircle}
                 label="Saída"
                 isActive={!isDeposit}
-                onClick={() => setIsDeposit(!isDeposit)}
+                onClick={() => setIsDeposit(false)}
               />
             </HStack>
             <Input placeholder="Categoria" bg="#F4F5F6" p="24px" />
@@ -86,10 +137,10 @@ export function NewTransactionModal({
             bg="#DC1637"
             color="white"
             p="24px"
-            onClick={() => {
-              console.log(name);
-              console.log(price);
+            _hover={{
+              filter: "brightness(0.9)",
             }}
+            onClick={handleCreateTransaction}
           >
             Cadastrar
           </Button>

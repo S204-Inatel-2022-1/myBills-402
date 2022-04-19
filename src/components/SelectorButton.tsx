@@ -21,14 +21,14 @@ export function SelectorButton({
     <Button
       flex="1"
       onClick={onClick}
-      borderColor={color}
+      borderColor={isActive ? color : '#a1a9c1'}
       borderWidth="1px"
       bg={isActive ? hex2rgba(color, 0.1) : "#F4F5F6"}
       p="24px"
       gap="8px"
     >
-      <Icon as={icon} color={color} />
-      <Text fontSize={14} color={isActive ? color : "#1B1B1F"}>
+      <Icon as={icon} color={isActive ? color: '#a1a9c1'} />
+      <Text fontSize={14} color={isActive ? color : "#a1a9c1"}>
         {label}
       </Text>
     </Button>
