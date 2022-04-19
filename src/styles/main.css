@@ -1,0 +1,11 @@
+.currency-input {
+  background: #f4f5f6;
+  padding: 12px 24px;
+  border-radius: 4px;
+  outline: none;
+  border: 1px solid #e2e6f1;
+}
+
+.currency-input:focus {
+  border-bottom: 2px solid #dc1637;
+}
