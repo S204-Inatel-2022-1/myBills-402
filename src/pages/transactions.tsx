@@ -2,6 +2,7 @@ import { Button, Flex, useDisclosure } from "@chakra-ui/react";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { Header } from "../components/Header";
 import { LoadingSplash } from "../components/LoadingSplash";
 import { NewTransactionModal } from "../components/NewTransactionModal";
 import { useFirebaseAuth } from "../contexts/FirebaseAuthContext";
@@ -23,8 +24,11 @@ const Dashboard: NextPage = () => {
 
   return (
     <Flex flexDir="column">
-      <Button onClick={onOpen}>Open Modal</Button>
+      <Header />
       <NewTransactionModal isOpen={isOpen} onClose={onClose} />
+      <Flex justifyContent="flex-end" marginTop="10px" marginRight="100px">
+      <Button onClick={onOpen} bg="#DC1637">Open Modal</Button>
+      </Flex>
     </Flex>
   );
 };
