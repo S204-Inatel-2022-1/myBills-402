@@ -11,13 +11,14 @@
   },
   "dependencies": {
     "@chakra-ui/icons": "^1.1.7",
-    "@chakra-ui/react": "^1.8.7",
+    "@chakra-ui/react": "^1.8.8",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
     "firebase": "^9.6.10",
     "framer-motion": "^6",
     "next": "^12.1.5",
     "react": "^18.0.0",
+    "react-currency-input-field": "^3.6.4",
     "react-dom": "^18.0.0",
     "react-icons": "^4.3.1"
   },

@@ -641,7 +641,7 @@
   dependencies:
     "@chakra-ui/utils" "^1.10.4"
 
-"@chakra-ui/react@^1.8.7":
+"@chakra-ui/react@^1.8.8":
   version "1.8.8"
   resolved "https://registry.yarnpkg.com/@chakra-ui/react/-/react-1.8.8.tgz#ca697dea94d94138043ef6fd62836b39107b4abd"
   integrity sha512-/XqL25J0i0h+usAXBngn/RTG2u1oQRzbhHe9tNHwFyNbx/izIADhQW/6ji06QU0KtaRIU77XvgSAyTtMJY1KmA==
@@ -4958,6 +4958,11 @@ react-clientside-effect@^1.2.5:
   integrity sha512-2bL8qFW1TGBHozGGbVeyvnggRpMjibeZM2536AKNENLECutp2yfs44IL8Hmpn8qjFQ2K7A9PnYf3vc7aQq/cPA==
   dependencies:
     "@babel/runtime" "^7.12.13"
+
+react-currency-input-field@^3.6.4:
+  version "3.6.4"
+  resolved "https://registry.yarnpkg.com/react-currency-input-field/-/react-currency-input-field-3.6.4.tgz#8063f9a445ba246063f0254ced4015210c90593a"
+  integrity sha512-0SifhqMirGt5+inzHslfbf71ZYoBt420pkMM6oBSGS40CsuPcLIOV19B1LPSCz7dWPGYi/kw5TOFQ0qALrn6Wg==
 
 react-dom@^18.0.0:
   version "18.0.0"
