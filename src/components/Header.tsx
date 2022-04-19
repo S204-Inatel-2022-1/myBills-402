@@ -1,7 +1,6 @@
-import { CloseIcon, HamburgerIcon, Icon } from "@chakra-ui/icons";
+import { Icon } from "@chakra-ui/icons";
 import {
   Avatar,
-  Button,
   Flex,
   Image,
   Popover,
