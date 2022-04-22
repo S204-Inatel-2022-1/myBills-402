@@ -10,7 +10,7 @@ export function LoadingSplash() {
       flexDir="column"
     >
       <Image src="/mybills.png" w="400px" mb={10} alt="My Bills" />
-      <Spinner size="lg" color="#DC1637" />
+      <Spinner size="lg" color="red.500" />
     </Flex>
   );
 }

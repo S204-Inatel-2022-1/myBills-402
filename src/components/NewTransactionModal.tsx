@@ -102,7 +102,7 @@ export function NewTransactionModal({
           <Stack gap="8px">
             <Input
               placeholder="Nome"
-              bg="#F4F5F6"
+              bg="white.200"
               p="24px"
               value={name}
               onChange={(e) => setName(e.target.value)}
@@ -113,28 +113,27 @@ export function NewTransactionModal({
             <CurrencyInput data={price} setData={setPrice} />
             <HStack w="100%">
               <SelectorButton
-                color="#03B252"
+                color="green.500"
                 icon={BsArrowUpCircle}
                 label="Entrada"
                 isActive={isDeposit}
                 onClick={() => setIsDeposit(true)}
               />
               <SelectorButton
-                color="#DC1637"
+                color="red.500"
                 icon={BsArrowDownCircle}
                 label="Saída"
                 isActive={!isDeposit}
                 onClick={() => setIsDeposit(false)}
               />
             </HStack>
-            <Input placeholder="Categoria" bg="#F4F5F6" p="24px" />
+            <Input placeholder="Categoria" bg="white.200" p="24px" />
           </Stack>
         </ModalBody>
-
         <ModalFooter>
           <Button
             w="100%"
-            bg="#DC1637"
+            bg="red.500"
             color="white"
             p="24px"
             _hover={{

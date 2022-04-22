@@ -15,8 +15,9 @@ import {
 import { BsArrowUpCircle, BsArrowDownCircle } from "react-icons/bs";
 import { useState } from "react";
 import { SelectorButton } from "./SelectorButton";
-import { IoTrashOutline } from "react-icons/io5"
-import { MdSaveAlt } from "react-icons/md"
+import { IoTrashOutline } from "react-icons/io5";
+import { MdSaveAlt } from "react-icons/md";
+import { CurrencyInput } from "./CurrencyInput";
 
 type EditTransactionModalProps = {
   isOpen: boolean;
@@ -28,7 +29,7 @@ export function EditTransactionModal({
   onClose,
 }: EditTransactionModalProps) {
   const [name, setName] = useState("");
-  const [price, setPrice] = useState<number | null>(null);
+  const [price, setPrice] = useState("");
   const [isDeposit, setIsDeposit] = useState(true);
 
   return (
@@ -43,7 +44,7 @@ export function EditTransactionModal({
           <Stack gap="8px">
             <Input
               placeholder="Nome"
-              bg="#F4F5F6"
+              bg="white.300"
               p="24px"
               value={name}
               onChange={(e) => setName(e.target.value)}
@@ -51,27 +52,17 @@ export function EditTransactionModal({
                 borderBottom: "2px solid #DC1637",
               }}
             />
-            <Input
-              placeholder="Preço"
-              bg="#F4F5F6"
-              p="24px"
-              value={price ?? ""}
-              onChange={(e) => setPrice(parseInt(e.target.value))}
-              type="number"
-              _focus={{
-                borderBottom: "2px solid #DC1637",
-              }}
-            />
+            <CurrencyInput data={price} setData={setPrice} />
             <HStack w="100%">
               <SelectorButton
-                color="#03B252"
+                color="green.500"
                 icon={BsArrowUpCircle}
                 label="Entrada"
                 isActive={isDeposit}
                 onClick={() => setIsDeposit(!isDeposit)}
               />
               <SelectorButton
-                color="#DC1637"
+                color="red.500"
                 icon={BsArrowDownCircle}
                 label="Saída"
                 isActive={!isDeposit}
@@ -82,10 +73,10 @@ export function EditTransactionModal({
           </Stack>
         </ModalBody>
 
-        <ModalFooter gap="2px">
+        <ModalFooter gap="8px">
           <Button
             w="50%"
-            bg="#03B252"
+            bg="green.500"
             color="white"
             leftIcon={<MdSaveAlt />}
             p="24px"
@@ -99,7 +90,7 @@ export function EditTransactionModal({
 
           <Button
             w="50%"
-            bg="#DC1637"
+            bg="red.500"
             color="white"
             leftIcon={<IoTrashOutline />}
             p="24px"
