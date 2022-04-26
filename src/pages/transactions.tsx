@@ -12,17 +12,35 @@ import {
   TableContainer,
   Heading,
 } from "@chakra-ui/react";
+import { Timestamp } from "firebase/firestore";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { EditTransactionModal } from "../components/EditTransactionModal";
 import { Header } from "../components/Header";
 import { LoadingSplash } from "../components/LoadingSplash";
 import { NewTransactionModal } from "../components/NewTransactionModal";
 import { useFirebaseAuth } from "../contexts/FirebaseAuthContext";
 
+type Transaction = {
+  id: string;
+  authorId: string;
+  name: string;
+  price: number;
+  isDeposit: boolean;
+  category: string;
+  createdAt: Timestamp;
+};
+
 const Dashboard: NextPage = () => {
   const { user, isAuthLoading } = useFirebaseAuth();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [transactionToEdit, setTransactionToEdit] = useState<Transaction>({
+  id: "70doJyvJPDpi8pgr8CZQ",
+  name: "pepino",
+  price: 12,
+  isDeposit:false
+  }as Transaction)
   const router = useRouter();
 
   useEffect(() => {
@@ -38,7 +56,8 @@ const Dashboard: NextPage = () => {
   return (
     <Flex flexDir="column" bg="white.200" minH="100vh">
       <Header />
-      <NewTransactionModal isOpen={isOpen} onClose={onClose} />
+      <NewTransactionModal isOpen={false} onClose={onClose}/>
+      <EditTransactionModal isOpen={isOpen} onClose={onClose} transaction={transactionToEdit} />
       <Container marginTop="10px" maxW="2x1" px="8rem">
         <Flex justifyContent="space-between" mb="2rem">
           <Heading fontSize="36px" fontWeight="semibold" color="#414141">
