@@ -19,7 +19,7 @@ import { SelectorButton } from "./SelectorButton";
 import { IoTrashOutline } from "react-icons/io5";
 import { MdSaveAlt } from "react-icons/md";
 import { CurrencyInput } from "./CurrencyInput";
-import{deleteDoc, doc, Timestamp, updateDoc} from "firebase/firestore";
+import { deleteDoc, doc, Timestamp, updateDoc } from "firebase/firestore";
 import { db } from "../services/firebase";
 
 type Transaction = {
@@ -35,71 +35,71 @@ type Transaction = {
 type EditTransactionModalProps = {
   isOpen: boolean;
   onClose: () => void;
-  transaction?: Transaction;
+  transaction: Transaction;
 };
 
 export function EditTransactionModal({
   isOpen,
   onClose,
   transaction,
-
 }: EditTransactionModalProps) {
-  const [name, setName] = useState(transaction?.name);
-  const [price, setPrice] = useState("");
-  const [isDeposit, setIsDeposit] = useState(true);
+  const [name, setName] = useState(transaction.name);
+  const [price, setPrice] = useState(String(transaction.price));
+  const [isDeposit, setIsDeposit] = useState(transaction.isDeposit);
   const formatToNumber = (s: string) => Number(s.replace(",", "."));
   const toast = useToast();
 
-
-  async function handleEditTransaction (){
-    const transactionId = transaction?.id
-    const transactionRef = doc(db, `transactions/${transactionId}`)
-    try{
-    await updateDoc(transactionRef, {
-      name,  price: formatToNumber(price), isDeposit
-    })
-    toast({
-      title: "Transação editada com sucesso",
-      status: "success",
-      duration: 5000,
-      isClosable: true,
-    });
-  }
-  catch(e){
-    toast({
-      title: "Erro ao editar sua transação",
-      status: "error",
-      duration: 5000,
-      isClosable: true,
-    });
-  }
-  onClose()
-}
-  async function handleDeleteTransaction (){
-    const transactionId = transaction?.id
-    const transactionRef = doc(db, `transactions/${transactionId}`)
-    
-    try{
-    await deleteDoc(transactionRef)
-    toast({
-      title: "Transação deletada com sucesso",
-      status: "success",
-      duration: 5000,
-      isClosable: true,
-    });
-    }
-    catch(e){
+  async function handleEditTransaction() {
+    const transactionId = transaction?.id;
+    const transactionRef = doc(db, `transactions/${transactionId}`);
+    try {
+      await updateDoc(transactionRef, {
+        name,
+        price: formatToNumber(price),
+        isDeposit,
+      });
       toast({
-        title: "Erro ao deletar sua transação",
+        title: "Transação editada com sucesso",
+        position: "top-right",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+      });
+    } catch (e) {
+      toast({
+        title: "Erro ao editar sua transação",
+        position: "top-right",
         status: "error",
         duration: 5000,
         isClosable: true,
       });
     }
-    onClose()
+    onClose();
   }
+  async function handleDeleteTransaction() {
+    const transactionId = transaction?.id;
+    const transactionRef = doc(db, `transactions/${transactionId}`);
 
-
+    try {
+      await deleteDoc(transactionRef);
+      toast({
+        title: "Transação deletada com sucesso",
+        position: "top-right",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+      });
+    } catch (e) {
+      toast({
+        title: "Erro ao deletar sua transação",
+        position: "top-right",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+    }
+    onClose();
+  }
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
@@ -149,9 +149,7 @@ export function EditTransactionModal({
             color="white"
             leftIcon={<MdSaveAlt />}
             p="24px"
-            onClick={ 
-             handleEditTransaction 
-            }
+            onClick={handleEditTransaction}
           >
             Salvar
           </Button>

@@ -71,6 +71,7 @@ export function NewTransactionModal({
       setIsDeposit(true);
       toast({
         title: "Transação adicionada com sucesso",
+        position: "top-right",
         status: "success",
         duration: 5000,
         isClosable: true,
@@ -79,11 +80,11 @@ export function NewTransactionModal({
     } catch (e) {
       toast({
         title: "Erro ao criar sua transação",
+        position: "top-right",
         status: "error",
         duration: 5000,
         isClosable: true,
       });
-
       setName("");
       setPrice("");
       setIsDeposit(true);
