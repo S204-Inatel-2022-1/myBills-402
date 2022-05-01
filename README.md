@@ -4,9 +4,11 @@
 
 ## ⚡️ O Projeto
   My Bills 402 é um aplicativo de controle financeiro que pode ser usado para controlar seus gastos e analizar métricas importantes sobre seu consumo.
-## 🎯 Features
- - Fake API with MirageJS
- - Modal with react-modal lib
+## 🎯 Funcionalidades
+ - [x] - Login social com o Google 
+ - [x] - CRUD de transações
+ - [x] - Listagem de transações
+ - [ ] - Dashboard com métricas e gráficos
   
 ## 🖥️ Tecnologias Usadas
  - [ReactJS](https://reactjs.org/)
