@@ -159,73 +159,61 @@ const Dashboard: NextPage = () => {
               </Tr>
             </Thead>
             <Tbody gap="1rem">
-              {transactions.length > 0 && (
-                <>
-                  {transactions?.map((transaction) => (
-                    <Tr
-                      boxShadow="md"
-                      key={transaction.id}
-                      sx={{
-                        borderRadius: "1rem",
-                      }}
-                      bgColor="white"
-                    >
-                      <Td>{transaction.category}</Td>
-                      <Td color="gray.300">
-                        {transaction.createdAt.toDate().toLocaleDateString()}
-                      </Td>
-                      <Td>{transaction.name}</Td>
-                      <Td isNumeric>
-                        {new Intl.NumberFormat("pt-BR", {
-                          style: "currency",
-                          currency: "BRL",
-                        }).format(transaction.price)}
-                      </Td>
-                      <Td py="0">
-                        {transaction.isDeposit ? (
-                          <Tag
-                            size="lg"
-                            variant="subtle"
-                            borderWidth="1px"
-                            borderColor="green.500"
-                            bg={hex2rgba("03B252", 0.1)}
-                            color="green.500"
-                          >
-                            <TagLeftIcon boxSize="1rem" as={BsArrowUpCircle} />
-                            <TagLabel>Depósito</TagLabel>
-                          </Tag>
-                        ) : (
-                          <Tag
-                            size="lg"
-                            variant="subtle"
-                            borderWidth="1px"
-                            borderColor="red.500"
-                            bg={hex2rgba("DC1637", 0.1)}
-                            color="red.500"
-                          >
-                            <TagLeftIcon
-                              boxSize="12px"
-                              as={BsArrowDownCircle}
-                            />
-                            <TagLabel>Retirada</TagLabel>
-                          </Tag>
-                        )}
-                      </Td>
-                      <Td px="1rem">
-                        <IconButton
-                          borderRadius="50%"
+              <>
+                {transactions?.map((transaction) => (
+                  <Tr key={transaction.id} boxShadow="md" bgColor="white">
+                    <Td>{transaction.category}</Td>
+                    <Td color="gray.300">
+                      {transaction.createdAt.toDate().toLocaleDateString()}
+                    </Td>
+                    <Td>{transaction.name}</Td>
+                    <Td isNumeric>
+                      {new Intl.NumberFormat("pt-BR", {
+                        style: "currency",
+                        currency: "BRL",
+                      }).format(transaction.price)}
+                    </Td>
+                    <Td py="0">
+                      {transaction.isDeposit ? (
+                        <Tag
+                          size="lg"
+                          variant="subtle"
+                          borderWidth="1px"
+                          borderColor="green.500"
+                          bg={hex2rgba("03B252", 0.1)}
+                          color="green.500"
+                        >
+                          <TagLeftIcon boxSize="1rem" as={BsArrowUpCircle} />
+                          <TagLabel>Depósito</TagLabel>
+                        </Tag>
+                      ) : (
+                        <Tag
+                          size="lg"
+                          variant="subtle"
+                          borderWidth="1px"
+                          borderColor="red.500"
+                          bg={hex2rgba("DC1637", 0.1)}
                           color="red.500"
-                          fontSize="1.2rem"
-                          bg="transparent"
-                          aria-label="edit transaction"
-                          onClick={() => setTransactionToEdit(transaction)}
-                          icon={<BiEditAlt />}
-                        />
-                      </Td>
-                    </Tr>
-                  ))}
-                </>
-              )}
+                        >
+                          <TagLeftIcon boxSize="12px" as={BsArrowDownCircle} />
+                          <TagLabel>Retirada</TagLabel>
+                        </Tag>
+                      )}
+                    </Td>
+                    <Td px="1rem">
+                      <IconButton
+                        onClick={() => setTransactionToEdit(transaction)}
+                        borderRadius="50%"
+                        color="red.500"
+                        fontSize="1.2rem"
+                        bg="transparent"
+                        aria-label="edit transaction"
+                        icon={<BiEditAlt />}
+                      />
+                    </Td>
+                  </Tr>
+                ))}
+              </>
             </Tbody>
           </Table>
         </TableContainer>

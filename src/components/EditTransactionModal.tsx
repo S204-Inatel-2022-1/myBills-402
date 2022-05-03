@@ -11,7 +11,6 @@ import {
   ModalOverlay,
   Stack,
   Text,
-  useToast,
 } from "@chakra-ui/react";
 import { BsArrowUpCircle, BsArrowDownCircle } from "react-icons/bs";
 import { useState } from "react";
@@ -21,6 +20,7 @@ import { MdSaveAlt } from "react-icons/md";
 import { CurrencyInput } from "./CurrencyInput";
 import { deleteDoc, doc, Timestamp, updateDoc } from "firebase/firestore";
 import { db } from "../services/firebase";
+import { toast } from "react-toastify";
 
 type Transaction = {
   id: string;
@@ -47,56 +47,30 @@ export function EditTransactionModal({
   const [price, setPrice] = useState(String(transaction.price));
   const [isDeposit, setIsDeposit] = useState(transaction.isDeposit);
   const formatToNumber = (s: string) => Number(s.replace(",", "."));
-  const toast = useToast();
 
   async function handleEditTransaction() {
-    const transactionId = transaction?.id;
-    const transactionRef = doc(db, `transactions/${transactionId}`);
+    const transactionRef = doc(db, `transactions/${transaction?.id}`);
     try {
       await updateDoc(transactionRef, {
         name,
         price: formatToNumber(price),
         isDeposit,
       });
-      toast({
-        title: "Transação editada com sucesso",
-        position: "top-right",
-        status: "success",
-        duration: 5000,
-        isClosable: true,
-      });
+      toast.success("Transação editada com sucesso");
     } catch (e) {
-      toast({
-        title: "Erro ao editar sua transação",
-        position: "top-right",
-        status: "error",
-        duration: 5000,
-        isClosable: true,
-      });
+      toast.error("Erro ao editar sua transação");
     }
     onClose();
   }
+  
   async function handleDeleteTransaction() {
-    const transactionId = transaction?.id;
-    const transactionRef = doc(db, `transactions/${transactionId}`);
+    const transactionRef = doc(db, `transactions/${transaction?.id}`);
 
     try {
       await deleteDoc(transactionRef);
-      toast({
-        title: "Transação deletada com sucesso",
-        position: "top-right",
-        status: "success",
-        duration: 5000,
-        isClosable: true,
-      });
+      toast.success("Transação deletada com sucesso");
     } catch (e) {
-      toast({
-        title: "Erro ao deletar sua transação",
-        position: "top-right",
-        status: "error",
-        duration: 5000,
-        isClosable: true,
-      });
+      toast.error("Erro ao deletar sua transação");
     }
     onClose();
   }

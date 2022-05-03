@@ -14,6 +14,7 @@ describe("Header component", () => {
       handleLogout: jest.fn(),
       isAuthLoading: false,
       user: {
+        id: "fake-id",
         name: "John Doe",
         avatar: "user-avatar",
         email: "john@doe.com",

@@ -11,20 +11,15 @@ import {
   ModalOverlay,
   Stack,
   Text,
-  useToast,
 } from "@chakra-ui/react";
 import { BsArrowUpCircle, BsArrowDownCircle } from "react-icons/bs";
 import { useState } from "react";
 import { SelectorButton } from "./SelectorButton";
-import {
-  addDoc,
-  collection,
-  serverTimestamp,
-  Timestamp,
-} from "firebase/firestore";
+import { addDoc, collection, Timestamp } from "firebase/firestore";
 import { db } from "../services/firebase";
 import { CurrencyInput } from "./CurrencyInput";
 import { useFirebaseAuth } from "../contexts/FirebaseAuthContext";
+import { toast } from "react-toastify";
 
 type NewTransactionModalProps = {
   isOpen: boolean;
@@ -48,7 +43,6 @@ export function NewTransactionModal({
   const [price, setPrice] = useState("");
   const [isDeposit, setIsDeposit] = useState(true);
   const { user } = useFirebaseAuth();
-  const toast = useToast();
   const formatToNumber = (s: string) => Number(s.replace(",", "."));
 
   async function handleCreateTransaction() {
@@ -69,22 +63,10 @@ export function NewTransactionModal({
       setName("");
       setPrice("");
       setIsDeposit(true);
-      toast({
-        title: "Transação adicionada com sucesso",
-        position: "top-right",
-        status: "success",
-        duration: 5000,
-        isClosable: true,
-      });
+      toast.success("Transação adicionada com sucesso");
       onClose();
     } catch (e) {
-      toast({
-        title: "Erro ao criar sua transação",
-        position: "top-right",
-        status: "error",
-        duration: 5000,
-        isClosable: true,
-      });
+      toast.error("Erro ao criar sua transação");
       setName("");
       setPrice("");
       setIsDeposit(true);

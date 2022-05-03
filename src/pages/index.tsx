@@ -22,7 +22,7 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     if (!isAuthLoading && user) {
-      router.push("/dashboard");
+      router.push("/transactions");
     }
   }, [user, isAuthLoading]);
 
