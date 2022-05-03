@@ -22,7 +22,7 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     if (!isAuthLoading && user) {
-      router.push("/dashboard");
+      router.push("/transactions");
     }
   }, [user, isAuthLoading]);
 
@@ -51,7 +51,7 @@ const Home: NextPage = () => {
           </Text>
           <Text color="white">Faça login com o Google para começar!</Text>
           <Button
-            bg="#DC1637"
+            bg="red.500"
             color="white"
             _hover={{
               filter: "brightness(0.8)",
