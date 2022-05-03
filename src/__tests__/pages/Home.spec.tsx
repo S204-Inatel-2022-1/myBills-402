@@ -8,6 +8,8 @@ jest.mock("../../contexts/FirebaseAuthContext.tsx");
 jest.mock("next/router");
 
 describe("Home/Login page", () => {
+ 
+
   it("should render correctly", async () => {
     const useFirebaseAuthMocked = mocked(useFirebaseAuth);
     useFirebaseAuthMocked.mockReturnValueOnce({
@@ -79,6 +81,6 @@ describe("Home/Login page", () => {
 
     render(<Home />);
 
-    expect(pushMocked).toHaveBeenCalledWith("/dashboard");
+    expect(pushMocked).toHaveBeenCalledWith("/transactions");
   });
 });

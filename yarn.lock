@@ -641,10 +641,10 @@
   dependencies:
     "@chakra-ui/utils" "^1.10.4"
 
-"@chakra-ui/react@^1.8.8":
-  version "1.8.8"
-  resolved "https://registry.yarnpkg.com/@chakra-ui/react/-/react-1.8.8.tgz#ca697dea94d94138043ef6fd62836b39107b4abd"
-  integrity sha512-/XqL25J0i0h+usAXBngn/RTG2u1oQRzbhHe9tNHwFyNbx/izIADhQW/6ji06QU0KtaRIU77XvgSAyTtMJY1KmA==
+"@chakra-ui/react@2.0.0-next.0":
+  version "2.0.0-next.0"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/react/-/react-2.0.0-next.0.tgz#f549621c093dc32dac7a3dece0509106a9583c94"
+  integrity sha512-5KKyrD6ETp0bYX/0jyBDdBeAzmmbwAPivdWGptVNVfZUFrs1InyaHxzOObCBFpnKhOrK3rnUfJzRm5+I0DPttg==
   dependencies:
     "@chakra-ui/accordion" "1.4.11"
     "@chakra-ui/alert" "1.3.7"
@@ -688,7 +688,7 @@
     "@chakra-ui/tag" "1.2.7"
     "@chakra-ui/textarea" "1.2.11"
     "@chakra-ui/theme" "1.14.1"
-    "@chakra-ui/toast" "1.5.9"
+    "@chakra-ui/toast" "2.0.0-next.0"
     "@chakra-ui/tooltip" "1.5.1"
     "@chakra-ui/transition" "1.4.8"
     "@chakra-ui/utils" "1.10.4"
@@ -816,14 +816,16 @@
     "@chakra-ui/theme-tools" "1.3.6"
     "@chakra-ui/utils" "1.10.4"
 
-"@chakra-ui/toast@1.5.9":
-  version "1.5.9"
-  resolved "https://registry.yarnpkg.com/@chakra-ui/toast/-/toast-1.5.9.tgz#45521dc521186ce88aad07a3796545d15a6f9697"
-  integrity sha512-rns04bGdMcG7Ijg45L+PfuEW4rCd0Ycraix4EJQhcl9RXI18G9sphmlp9feidhZAkI6Ukafq1YvyvkBfkKnIzQ==
+"@chakra-ui/toast@2.0.0-next.0":
+  version "2.0.0-next.0"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/toast/-/toast-2.0.0-next.0.tgz#89189bb11f49947a192695cca3e986ae82efc8cf"
+  integrity sha512-G4kNSyOhRopEz2Uv+jplR18vR+f3WFHFGrj6J3dveeANIiCq0suq1oO0zlL5AsMSvmNImifuDWousoJcROROAg==
   dependencies:
     "@chakra-ui/alert" "1.3.7"
     "@chakra-ui/close-button" "1.2.7"
     "@chakra-ui/hooks" "1.9.1"
+    "@chakra-ui/portal" "1.3.10"
+    "@chakra-ui/react-utils" "1.2.3"
     "@chakra-ui/theme" "1.14.1"
     "@chakra-ui/transition" "1.4.8"
     "@chakra-ui/utils" "1.10.4"

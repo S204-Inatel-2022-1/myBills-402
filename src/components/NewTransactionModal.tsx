@@ -64,13 +64,13 @@ export function NewTransactionModal({
       setPrice("");
       setIsDeposit(true);
       toast.success("Transação adicionada com sucesso");
-      onClose();
     } catch (e) {
       toast.error("Erro ao criar sua transação");
       setName("");
       setPrice("");
       setIsDeposit(true);
     }
+    onClose();
   }
 
   return (
