@@ -125,7 +125,7 @@ const Dashboard: NextPage = () => {
           transaction={transactionToEdit}
         />
       )}
-      <Container marginTop="10px" maxW="2x1" px="8rem">
+      <Container marginTop="10px" maxW="2x1" px={["1rem", "1rem", "8rem"]}>
         <Flex justifyContent="space-between" mb="2rem">
           <Heading fontSize="36px" fontWeight="semibold" color="#414141">
             Transações
