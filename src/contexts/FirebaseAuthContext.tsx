@@ -20,6 +20,7 @@ type FirebaseAuthProviderProps = {
 };
 
 type User = {
+  id: string;
   name: string;
   email: string;
   avatar: string;
@@ -46,6 +47,7 @@ export function FirebaseAuthProvider({ children }: FirebaseAuthProviderProps) {
     const { user } = await signInWithPopup(auth, provider);
 
     setUser({
+      id: user.uid,
       name: String(user.displayName),
       email: String(user.email),
       avatar: String(user.photoURL),
@@ -59,6 +61,7 @@ export function FirebaseAuthProvider({ children }: FirebaseAuthProviderProps) {
       if (user) {
         setIsAuthLoading(true);
         setUser({
+          id: user.uid,
           name: String(user.displayName),
           email: String(user.email),
           avatar: String(user.photoURL),

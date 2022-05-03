@@ -21,14 +21,9 @@ const Dashboard: NextPage = () => {
   }
 
   return (
-    <Flex
-      as="nav"
-      flexDir="column"
-    >
+    <Flex as="nav" flexDir="column" bg="white.200" minH="100vh">
       <Header />
-      <Text>
-        Dashboard
-      </Text>
+      <Text>Dashboard</Text>
     </Flex>
   );
 };

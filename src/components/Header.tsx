@@ -1,20 +1,23 @@
-import { CloseIcon, HamburgerIcon, Icon } from "@chakra-ui/icons";
+import { Icon } from "@chakra-ui/icons";
 import {
   Avatar,
-  Button,
   Flex,
   Image,
   Popover,
   PopoverBody,
   PopoverContent,
   PopoverFooter,
-  PopoverTrigger,
+  PopoverTrigger as OrigPopoverTrigger,
   Spacer,
   Stack,
   Text,
 } from "@chakra-ui/react";
 import { MdLogout } from "react-icons/md";
 import { useFirebaseAuth } from "../contexts/FirebaseAuthContext";
+
+const PopoverTrigger: React.FC<{
+  children: React.ReactNode;
+}> = OrigPopoverTrigger;
 
 export function Header() {
   const { user, handleLogout } = useFirebaseAuth();
@@ -34,7 +37,7 @@ export function Header() {
         </PopoverTrigger>
         <PopoverContent
           mr="16px"
-          borderRadius="10px"
+          bg="white"
           _focus={{
             outline: "none",
           }}
@@ -53,7 +56,7 @@ export function Header() {
           <PopoverFooter
             cursor="pointer"
             borderBottomRadius="10px"
-            bg="#DC1637"
+            bg="red.500"
             onClick={handleLogout}
             d="flex"
             alignItems="center"
