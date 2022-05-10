@@ -11,6 +11,7 @@ import {
   ModalOverlay,
   Stack,
   Text,
+  Select,
 } from "@chakra-ui/react";
 import { BsArrowUpCircle, BsArrowDownCircle } from "react-icons/bs";
 import { useState } from "react";
@@ -20,6 +21,7 @@ import { db } from "../services/firebase";
 import { CurrencyInput } from "./CurrencyInput";
 import { useFirebaseAuth } from "../contexts/FirebaseAuthContext";
 import { toast } from "react-toastify";
+import { categories } from "../utils/categories";
 
 type NewTransactionModalProps = {
   isOpen: boolean;
@@ -35,6 +37,7 @@ type Transaction = {
   createdAt: Timestamp;
 };
 
+
 export function NewTransactionModal({
   isOpen,
   onClose,
@@ -42,6 +45,7 @@ export function NewTransactionModal({
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [isDeposit, setIsDeposit] = useState(true);
+  const [category, setCategory] = useState("food");
   const { user } = useFirebaseAuth();
   const formatToNumber = (s: string) => Number(s.replace(",", "."));
 
@@ -56,7 +60,7 @@ export function NewTransactionModal({
         name,
         price: formatToNumber(price),
         isDeposit,
-        category: "food",
+        category: category || "other",
         createdAt: Timestamp.now(),
       } as Transaction);
 
@@ -110,7 +114,18 @@ export function NewTransactionModal({
                 onClick={() => setIsDeposit(false)}
               />
             </HStack>
-            <Input placeholder="Categoria" bg="white.200" p="24px" />
+            <Select placeholder='Selecione a categoria'
+              onChange={(e) => setCategory(e.target.value)}
+            >
+              {categories.map((category) => (
+                <option
+                  key={category.id}
+                  value={category.value}
+                >
+                  {category.label}
+                </option>
+              ))}
+            </Select>
           </Stack>
         </ModalBody>
         <ModalFooter>

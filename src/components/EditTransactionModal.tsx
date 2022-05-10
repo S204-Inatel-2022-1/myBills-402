@@ -9,6 +9,7 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Select,
   Stack,
   Text,
 } from "@chakra-ui/react";
@@ -21,6 +22,7 @@ import { CurrencyInput } from "./CurrencyInput";
 import { deleteDoc, doc, Timestamp, updateDoc } from "firebase/firestore";
 import { db } from "../services/firebase";
 import { toast } from "react-toastify";
+import { categories } from "../utils/categories";
 
 type Transaction = {
   id: string;
@@ -46,6 +48,7 @@ export function EditTransactionModal({
   const [name, setName] = useState(transaction.name);
   const [price, setPrice] = useState(String(transaction.price));
   const [isDeposit, setIsDeposit] = useState(transaction.isDeposit);
+  const [category, setCategory] = useState("food");
   const formatToNumber = (s: string) => Number(s.replace(",", "."));
 
   async function handleEditTransaction() {
@@ -55,6 +58,7 @@ export function EditTransactionModal({
         name,
         price: formatToNumber(price),
         isDeposit,
+        category,
       });
       toast.success("Transação editada com sucesso");
     } catch (e) {
@@ -112,7 +116,18 @@ export function EditTransactionModal({
                 onClick={() => setIsDeposit(!isDeposit)}
               />
             </HStack>
-            <Input placeholder="Categoria" bg="#F4F5F6" p="24px" />
+            <Select placeholder='Selecione a categoria'
+              onChange={(e) => setCategory(e.target.value)}
+            >
+              {categories.map((category) => (
+                <option
+                  key={category.id}
+                  value={category.value}
+                >
+                  {category.label}
+                </option>
+              ))}
+            </Select>
           </Stack>
         </ModalBody>
 

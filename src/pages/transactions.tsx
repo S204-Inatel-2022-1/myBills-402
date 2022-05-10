@@ -4,6 +4,7 @@ import {
   Flex,
   useDisclosure,
   Table,
+  Text,
   Thead,
   Tbody,
   Tr,
@@ -30,6 +31,9 @@ import {
 import { db } from "../services/firebase";
 import { withSidebar } from "../components/hocs/withSidebar";
 import { TransactionItem } from "../components/TransactionItem";
+import { BsArrowDownCircle, BsArrowUpCircle } from "react-icons/bs";
+import { getCategory } from "../utils/categories";
+import { CategoryIcon } from "../components/CategoryIcon";
 
 type Transaction = {
   id: string;
