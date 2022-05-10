@@ -11,11 +11,16 @@ const theme = extendTheme({
     gray: {
       300: "#969CB2",
       700: "#414141",
+      900: "#1B1B1F",
     },
     white: {
       200: "#F4F5F6",
       300: "#F0F2F5",
     },
+  },
+  sizes: {
+    sidebar: "4rem",
+    page: "calc(100vw - 4rem)",
   },
   components: {
     Table: {
