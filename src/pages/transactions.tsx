@@ -4,6 +4,7 @@ import {
   Flex,
   useDisclosure,
   Table,
+  Text,
   Thead,
   Tbody,
   Tr,
@@ -38,6 +39,7 @@ import {
 import { db } from "../services/firebase";
 import { BsArrowDownCircle, BsArrowUpCircle } from "react-icons/bs";
 import { getCategory } from "../utils/categories";
+import { CategoryIcon } from "../components/CategoryIcon";
 
 type Transaction = {
   id: string;
@@ -163,7 +165,14 @@ const Dashboard: NextPage = () => {
               <>
                 {transactions?.map((transaction) => (
                   <Tr key={transaction.id} boxShadow="md" bgColor="white">
-                    <Td>{getCategory(transaction.category)}</Td>
+                    <Td>
+                      <Flex align="center">
+                      <CategoryIcon category={transaction.category}/>
+                      <Text ml="0.5rem" >
+                        {getCategory(transaction.category)}
+                      </Text>
+                      </Flex>
+                    </Td>
                     <Td color="gray.300">
                       {transaction.createdAt.toDate().toLocaleDateString()}
                     </Td>
