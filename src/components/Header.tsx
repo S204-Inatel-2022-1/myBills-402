@@ -23,12 +23,13 @@ export function Header() {
   const { user, handleLogout } = useFirebaseAuth();
 
   return (
-    <Flex as="nav" padding={5} w="100%" backgroundColor="#1B1B1F" color="white">
+    <Flex as="nav" padding={5} w="100%" bg="gray.900" color="white" shadow="md">
       <Image
-        src="/mybillsV2.svg"
-        w={["200px", "250px", "350px"]}
+        src="/mybills.svg"
+        w={["150px", "250px", "250px"]}
         alt="MyBills"
         mb={5}
+        ml="1rem"
       />
       <Spacer />
       <Popover>
