@@ -48,7 +48,7 @@ export function EditTransactionModal({
   const [name, setName] = useState(transaction.name);
   const [price, setPrice] = useState(String(transaction.price));
   const [isDeposit, setIsDeposit] = useState(transaction.isDeposit);
-  const [category, setCategory] = useState("food");
+  const [category, setCategory] = useState(transaction.category);
   const formatToNumber = (s: string) => Number(s.replace(",", "."));
 
   async function handleEditTransaction() {
@@ -66,7 +66,7 @@ export function EditTransactionModal({
     }
     onClose();
   }
-  
+
   async function handleDeleteTransaction() {
     const transactionRef = doc(db, `transactions/${transaction?.id}`);
 
@@ -116,15 +116,18 @@ export function EditTransactionModal({
                 onClick={() => setIsDeposit(!isDeposit)}
               />
             </HStack>
-            <Select placeholder='Selecione a categoria'
+            <Select
               onChange={(e) => setCategory(e.target.value)}
+              bg="white.300"
+              h="48px"
+              value={category}
+              _focus={{
+                borderBottom: "2px solid #DC1637",
+              }}
             >
-              {categories.map((category) => (
-                <option
-                  key={category.id}
-                  value={category.value}
-                >
-                  {category.label}
+              {categories.map(({ id, label, value }) => (
+                <option key={id} value={value}>
+                  {label}
                 </option>
               ))}
             </Select>

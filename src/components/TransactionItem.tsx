@@ -1,15 +1,19 @@
 import {
+  Flex,
   IconButton,
   Tag,
   TagLabel,
   TagLeftIcon,
   Td,
+  Text,
   Tr,
 } from "@chakra-ui/react";
 import { Timestamp } from "firebase/firestore";
 import { BiEditAlt } from "react-icons/bi";
 import { BsArrowDownCircle, BsArrowUpCircle } from "react-icons/bs";
+import { getCategory } from "../utils/categories";
 import { hex2rgba } from "../utils/hex2rgba";
+import { CategoryIcon } from "./CategoryIcon";
 
 type Transaction = {
   id: string;
@@ -32,7 +36,12 @@ export function TransactionItem({
 }: TransactionItemProps) {
   return (
     <Tr key={transaction.id} boxShadow="md" bgColor="white">
-      <Td>{transaction.category}</Td>
+      <Td>
+        <Flex align="center">
+          <CategoryIcon category={transaction.category} />
+          <Text ml="0.5rem">{getCategory(transaction.category)}</Text>
+        </Flex>
+      </Td>
       <Td color="gray.300">
         {transaction.createdAt.toDate().toLocaleDateString()}
       </Td>

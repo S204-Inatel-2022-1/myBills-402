@@ -37,15 +37,14 @@ type Transaction = {
   createdAt: Timestamp;
 };
 
-
 export function NewTransactionModal({
   isOpen,
   onClose,
 }: NewTransactionModalProps) {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
+  const [category, setCategory] = useState("");
   const [isDeposit, setIsDeposit] = useState(true);
-  const [category, setCategory] = useState("food");
   const { user } = useFirebaseAuth();
   const formatToNumber = (s: string) => Number(s.replace(",", "."));
 
@@ -60,7 +59,7 @@ export function NewTransactionModal({
         name,
         price: formatToNumber(price),
         isDeposit,
-        category: category || "other",
+        category: category ?? "other",
         createdAt: Timestamp.now(),
       } as Transaction);
 
@@ -114,14 +113,18 @@ export function NewTransactionModal({
                 onClick={() => setIsDeposit(false)}
               />
             </HStack>
-            <Select placeholder='Selecione a categoria'
+            <Select
+              placeholder="Selecione a categoria"
               onChange={(e) => setCategory(e.target.value)}
+              bg="white.300"
+              h="48px"
+              value={category}
+              _focus={{
+                borderBottom: "2px solid #DC1637",
+              }}
             >
               {categories.map((category) => (
-                <option
-                  key={category.id}
-                  value={category.value}
-                >
+                <option key={category.id} value={category.value}>
                   {category.label}
                 </option>
               ))}

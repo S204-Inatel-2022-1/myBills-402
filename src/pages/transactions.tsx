@@ -67,7 +67,9 @@ const Dashboard: NextPage = () => {
 
   useEffect(() => {
     if (user) {
+      setIsTransactionsLoading(true);
       getTransactions();
+      setIsTransactionsLoading(false);
     }
   }, [user]);
 
@@ -93,7 +95,6 @@ const Dashboard: NextPage = () => {
   }
 
   async function getTransactions() {
-    setIsTransactionsLoading(true);
     const q = query(
       collection(db, "transactions"),
       orderBy("createdAt", "desc"),
@@ -104,7 +105,6 @@ const Dashboard: NextPage = () => {
       (doc) => ({ id: doc.id, ...doc.data() } as Transaction)
     );
     setTransactions(transactionsList);
-    setIsTransactionsLoading(false);
   }
 
   return (
