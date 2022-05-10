@@ -58,6 +58,7 @@ export function EditTransactionModal({
         name,
         price: formatToNumber(price),
         isDeposit,
+        category,
       });
       toast.success("Transação editada com sucesso");
     } catch (e) {
