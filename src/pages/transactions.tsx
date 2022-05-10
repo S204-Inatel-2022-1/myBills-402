@@ -37,6 +37,7 @@ import {
 } from "firebase/firestore";
 import { db } from "../services/firebase";
 import { BsArrowDownCircle, BsArrowUpCircle } from "react-icons/bs";
+import { getCategory } from "../utils/categories";
 
 type Transaction = {
   id: string;
@@ -162,7 +163,7 @@ const Dashboard: NextPage = () => {
               <>
                 {transactions?.map((transaction) => (
                   <Tr key={transaction.id} boxShadow="md" bgColor="white">
-                    <Td>{transaction.category}</Td>
+                    <Td>{getCategory(transaction.category)}</Td>
                     <Td color="gray.300">
                       {transaction.createdAt.toDate().toLocaleDateString()}
                     </Td>
