@@ -12,30 +12,42 @@ import { IoMdSchool } from "react-icons/io";
 import { Icon } from "@chakra-ui/react";
 import { IconType } from "react-icons";
 
-function BaseIcon({ icon }: { icon: IconType }) {
-  return <Icon fontSize="24" color="gray.900" as={icon} />;
+function BaseIcon({
+  icon,
+  fontSize = "24",
+}: {
+  icon: IconType;
+  fontSize?: string;
+}) {
+  return <Icon fontSize={fontSize} color="gray.900" as={icon} />;
 }
 
-export function CategoryIcon({ category }: { category: string }) {
+export function CategoryIcon({
+  category,
+  fontSize,
+}: {
+  category: string;
+  fontSize?: string;
+}) {
   switch (category) {
     case "food":
-      return <BaseIcon icon={MdFastfood} />;
+      return <BaseIcon fontSize={fontSize} icon={MdFastfood} />;
     case "debt":
-      return <BaseIcon icon={FcDebt} />;
+      return <BaseIcon fontSize={fontSize} icon={FcDebt} />;
     case "clothing":
-      return <BaseIcon icon={GiClothes} />;
+      return <BaseIcon fontSize={fontSize} icon={GiClothes} />;
     case "entertainment":
-      return <BaseIcon icon={MdSportsBar} />;
+      return <BaseIcon fontSize={fontSize} icon={MdSportsBar} />;
     case "health":
-      return <BaseIcon icon={FaPills} />;
+      return <BaseIcon fontSize={fontSize} icon={FaPills} />;
     case "house":
-      return <BaseIcon icon={BsFillHouseFill} />;
+      return <BaseIcon fontSize={fontSize} icon={BsFillHouseFill} />;
     case "transport":
-      return <BaseIcon icon={MdEmojiTransportation} />;
+      return <BaseIcon fontSize={fontSize} icon={MdEmojiTransportation} />;
     case "education":
-      return <BaseIcon icon={IoMdSchool} />;
+      return <BaseIcon fontSize={fontSize} icon={IoMdSchool} />;
     case "other":
-      return <BaseIcon icon={BsThreeDots} />;
+      return <BaseIcon fontSize={fontSize} icon={BsThreeDots} />;
   }
 
   return <MdCancel />;
