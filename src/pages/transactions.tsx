@@ -12,6 +12,20 @@ import {
   TableContainer,
   Heading,
   Spinner,
+  IconButton,
+  Popover,
+  PopoverTrigger as OrigPopoverTrigger,
+  PopoverContent,
+  PopoverArrow,
+  PopoverHeader,
+  PopoverCloseButton,
+  PopoverBody,
+  PopoverFooter,
+  Portal,
+  Icon,
+  RadioGroup,
+  Radio,
+  Stack,
 } from "@chakra-ui/react";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
@@ -31,7 +45,11 @@ import {
 import { db } from "../services/firebase";
 import { withSidebar } from "../components/hocs/withSidebar";
 import { TransactionItem } from "../components/TransactionItem";
+import { BsFilter } from "react-icons/bs";
 import Head from "next/head";
+import { categories } from "../utils/categories";
+import { CategoryIcon } from "../components/CategoryIcon";
+import { toast } from "react-toastify";
 
 type Transaction = {
   id: string;
@@ -42,6 +60,10 @@ type Transaction = {
   category: string;
   createdAt: Timestamp;
 };
+
+const PopoverTrigger: React.FC<{
+  children: React.ReactNode;
+}> = OrigPopoverTrigger;
 
 export const TransactionsPage: NextPage = () => {
   const { user, isAuthLoading } = useFirebaseAuth();
@@ -62,6 +84,46 @@ export const TransactionsPage: NextPage = () => {
   const router = useRouter();
   const [isTransactionsLoading, setIsTransactionsLoading] = useState(true);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [transactionFilter, setTransactionFilter] = useState("all");
+
+  function handleClosingWithReloading() {
+    handleCloseNewTransactionModal();
+    getTransactions();
+  }
+
+  function handleClosingWithTransactionClean() {
+    handleCloseEditTransactionModal();
+    setTransactionToEdit(null);
+    getTransactions();
+  }
+
+  async function getTransactions() {
+    let q;
+    try {
+      if (transactionFilter !== "all") {
+        q = query(
+          collection(db, "transactions"),
+          orderBy("createdAt", "desc"),
+          where("authorId", "==", user?.id),
+          where("category", "==", transactionFilter)
+        );
+      } else {
+        q = query(
+          collection(db, "transactions"),
+          orderBy("createdAt", "desc"),
+          where("authorId", "==", user?.id)
+        );
+      }
+
+      const querySnapshot = await getDocs(q);
+      const transactionsList = querySnapshot.docs.map(
+        (doc) => ({ id: doc.id, ...doc.data() } as Transaction)
+      );
+      setTransactions(transactionsList);
+    } catch (err) {
+      toast.error("Erro ao carregar transações");
+    }
+  }
 
   useEffect(() => {
     if (user) {
@@ -81,29 +143,9 @@ export const TransactionsPage: NextPage = () => {
     if (transactionToEdit) handleOpenEditTransactionModal();
   }, [transactionToEdit]);
 
-  function handleClosingWithReloading() {
-    handleCloseNewTransactionModal();
+  useEffect(() => {
     getTransactions();
-  }
-
-  function handleClosingWithTransactionClean() {
-    handleCloseEditTransactionModal();
-    setTransactionToEdit(null);
-    getTransactions();
-  }
-
-  async function getTransactions() {
-    const q = query(
-      collection(db, "transactions"),
-      orderBy("createdAt", "desc"),
-      where("authorId", "==", user?.id)
-    );
-    const querySnapshot = await getDocs(q);
-    const transactionsList = querySnapshot.docs.map(
-      (doc) => ({ id: doc.id, ...doc.data() } as Transaction)
-    );
-    setTransactions(transactionsList);
-  }
+  }, [transactionFilter]);
 
   return (
     <>
@@ -162,6 +204,60 @@ export const TransactionsPage: NextPage = () => {
                   <Th>Título</Th>
                   <Th isNumeric>Valor</Th>
                   <Th>Tipo</Th>
+                  <Th>
+                    <Popover>
+                      <PopoverTrigger>
+                        <Button
+                          aria-label="filter"
+                          size="sm"
+                          rounded="full"
+                          p={1}
+                          bg="green.500"
+                          color="white"
+                          shadow="md"
+                          d="flex"
+                          alignItems="center"
+                          justifyContent="center"
+                        >
+                          <Icon as={BsFilter} />
+                        </Button>
+                      </PopoverTrigger>
+                      <Portal>
+                        <PopoverContent bg="white">
+                          <PopoverArrow />
+                          <PopoverHeader>Filtro por categoria</PopoverHeader>
+                          <PopoverCloseButton />
+                          <PopoverBody>
+                            <RadioGroup
+                              value={transactionFilter}
+                              onChange={setTransactionFilter}
+                            >
+                              <Stack>
+                                <Radio value="all" colorScheme="red">
+                                  Todos
+                                </Radio>
+                                {categories.map((category) => (
+                                  <Radio
+                                    key={category.id}
+                                    value={category.value}
+                                    colorScheme="red"
+                                  >
+                                    <Flex align="center">
+                                      <CategoryIcon
+                                        category={category.value}
+                                        fontSize="16px"
+                                      />
+                                      <Text ml="0.5rem">{category.label}</Text>
+                                    </Flex>
+                                  </Radio>
+                                ))}
+                              </Stack>
+                            </RadioGroup>
+                          </PopoverBody>
+                        </PopoverContent>
+                      </Portal>
+                    </Popover>
+                  </Th>
                 </Tr>
               </Thead>
               <Tbody gap="1rem">
