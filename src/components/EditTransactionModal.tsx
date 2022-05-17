@@ -106,20 +106,21 @@ export function EditTransactionModal({
                 icon={BsArrowUpCircle}
                 label="Entrada"
                 isActive={isDeposit}
-                onClick={() => setIsDeposit(!isDeposit)}
+                onClick={() => setIsDeposit(true)}
               />
               <SelectorButton
                 color="red.500"
                 icon={BsArrowDownCircle}
                 label="Saída"
                 isActive={!isDeposit}
-                onClick={() => setIsDeposit(!isDeposit)}
+                onClick={() => setIsDeposit(false)}
               />
             </HStack>
             <Select
               onChange={(e) => setCategory(e.target.value)}
               bg="white.300"
               h="48px"
+              data-testid="select"
               value={category}
               _focus={{
                 borderBottom: "2px solid #DC1637",

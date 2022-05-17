@@ -31,9 +31,7 @@ import {
 import { db } from "../services/firebase";
 import { withSidebar } from "../components/hocs/withSidebar";
 import { TransactionItem } from "../components/TransactionItem";
-import { BsArrowDownCircle, BsArrowUpCircle } from "react-icons/bs";
-import { getCategory } from "../utils/categories";
-import { CategoryIcon } from "../components/CategoryIcon";
+import Head from "next/head";
 
 type Transaction = {
   id: string;
@@ -45,7 +43,7 @@ type Transaction = {
   createdAt: Timestamp;
 };
 
-const Dashboard: NextPage = () => {
+export const TransactionsPage: NextPage = () => {
   const { user, isAuthLoading } = useFirebaseAuth();
   const {
     isOpen: isNewTransactionModalOpen,
@@ -109,6 +107,9 @@ const Dashboard: NextPage = () => {
 
   return (
     <>
+      <Head>
+        <title>MyBills | Transactions</title>
+      </Head>
       <Header />
       <NewTransactionModal
         isOpen={isNewTransactionModalOpen}
@@ -182,4 +183,4 @@ const Dashboard: NextPage = () => {
   );
 };
 
-export default withSidebar(Dashboard);
+export default withSidebar(TransactionsPage);

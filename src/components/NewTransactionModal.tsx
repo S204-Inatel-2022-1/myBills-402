@@ -59,7 +59,7 @@ export function NewTransactionModal({
         name,
         price: formatToNumber(price),
         isDeposit,
-        category: category ?? "other",
+        category: category != "" ? category : "other",
         createdAt: Timestamp.now(),
       } as Transaction);
 
@@ -115,6 +115,7 @@ export function NewTransactionModal({
             </HStack>
             <Select
               placeholder="Selecione a categoria"
+              data-testid="select"
               onChange={(e) => setCategory(e.target.value)}
               bg="white.300"
               h="48px"
