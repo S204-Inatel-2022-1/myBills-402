@@ -38,7 +38,7 @@ export function TransactionItem({
     <Tr key={transaction.id} boxShadow="md" bgColor="white">
       <Td>
         <Flex align="center">
-          <CategoryIcon category={transaction.category} />
+          <CategoryIcon category={transaction.category}  />
           <Text ml="0.5rem">{getCategory(transaction.category)}</Text>
         </Flex>
       </Td>

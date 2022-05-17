@@ -1,11 +1,10 @@
-import { FcDebt } from "react-icons/fc";
 import {
   MdFastfood,
   MdSportsBar,
   MdEmojiTransportation,
   MdCancel,
 } from "react-icons/md";
-import { GiClothes } from "react-icons/gi";
+import { GiClothes, GiTakeMyMoney } from "react-icons/gi";
 import { FaPills } from "react-icons/fa";
 import { BsFillHouseFill, BsThreeDots } from "react-icons/bs";
 import { IoMdSchool } from "react-icons/io";
@@ -19,7 +18,7 @@ function BaseIcon({
   icon: IconType;
   fontSize?: string;
 }) {
-  return <Icon fontSize={fontSize} color="gray.900" as={icon} />;
+  return <Icon fontSize={fontSize} color="red.500" as={icon} />;
 }
 
 export function CategoryIcon({
@@ -33,7 +32,7 @@ export function CategoryIcon({
     case "food":
       return <BaseIcon fontSize={fontSize} icon={MdFastfood} />;
     case "debt":
-      return <BaseIcon fontSize={fontSize} icon={FcDebt} />;
+      return <BaseIcon fontSize={fontSize} icon={GiTakeMyMoney} />;
     case "clothing":
       return <BaseIcon fontSize={fontSize} icon={GiClothes} />;
     case "entertainment":
