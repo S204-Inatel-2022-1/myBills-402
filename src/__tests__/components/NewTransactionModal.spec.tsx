@@ -48,14 +48,16 @@ describe("New transaction modal", () => {
     expect(mockedAddDoc).not.toHaveBeenCalled();
   });
 
-  it("should be able to create transaction", async () => {
+  it("should send category with other if category is not selected", async () => {
     const onCloseMocked = jest.fn();
     renderWithToastify(
       <NewTransactionModal isOpen={true} onClose={onCloseMocked} />
     );
     const button = screen.getByText("Cadastrar");
     const nameInput = screen.getByPlaceholderText("Nome");
+    const isDepositInput = screen.getByText("Entrada");
     const valueInput = screen.getByPlaceholderText("Preço");
+
     const mockedAddDoc = mocked(addDoc).mockResolvedValueOnce({
       id: "fake-id",
       type: "document",
@@ -63,6 +65,7 @@ describe("New transaction modal", () => {
 
     fireEvent.change(nameInput, { target: { value: "Teste" } });
     fireEvent.change(valueInput, { target: { value: "123" } });
+    fireEvent.click(isDepositInput);
     fireEvent.click(button);
 
     await waitFor(() => {
@@ -72,6 +75,48 @@ describe("New transaction modal", () => {
           authorId: "fake-id",
           name: "Teste",
           price: 123,
+          isDeposit: true,
+          category: "other",
+        })
+      );
+      expect(
+        screen.getByText("Transação adicionada com sucesso")
+      ).toBeInTheDocument();
+      expect(onCloseMocked).toHaveBeenCalled();
+    });
+  });
+
+  it("should be able to create transaction", async () => {
+    const onCloseMocked = jest.fn();
+    renderWithToastify(
+      <NewTransactionModal isOpen={true} onClose={onCloseMocked} />
+    );
+    const button = screen.getByText("Cadastrar");
+    const nameInput = screen.getByPlaceholderText("Nome");
+    const valueInput = screen.getByPlaceholderText("Preço");
+    const categorySelect = screen.getByTestId("select");
+    const isDepositInput = screen.getByText("Saída");
+
+    const mockedAddDoc = mocked(addDoc).mockResolvedValueOnce({
+      id: "fake-id",
+      type: "document",
+    } as any);
+
+    fireEvent.change(nameInput, { target: { value: "Teste" } });
+    fireEvent.change(valueInput, { target: { value: "123" } });
+    fireEvent.change(categorySelect, { target: { value: "food" } });
+    fireEvent.click(isDepositInput);
+    fireEvent.click(button);
+
+    await waitFor(() => {
+      expect(mockedAddDoc).toHaveBeenCalledWith(
+        undefined,
+        expect.objectContaining({
+          authorId: "fake-id",
+          name: "Teste",
+          price: 123,
+          category: "food",
+          isDeposit: false,
         })
       );
       expect(
