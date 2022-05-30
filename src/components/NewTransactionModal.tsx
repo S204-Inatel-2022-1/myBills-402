@@ -11,15 +11,17 @@ import {
   ModalOverlay,
   Stack,
   Text,
+  Select,
 } from "@chakra-ui/react";
 import { BsArrowUpCircle, BsArrowDownCircle } from "react-icons/bs";
-import { useState } from "react";
+import React, { useState } from "react";
 import { SelectorButton } from "./SelectorButton";
 import { addDoc, collection, Timestamp } from "firebase/firestore";
 import { db } from "../services/firebase";
 import { CurrencyInput } from "./CurrencyInput";
 import { useFirebaseAuth } from "../contexts/FirebaseAuthContext";
 import { toast } from "react-toastify";
+import { categories } from "../utils/categories";
 
 type NewTransactionModalProps = {
   isOpen: boolean;
@@ -41,6 +43,7 @@ export function NewTransactionModal({
 }: NewTransactionModalProps) {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
+  const [category, setCategory] = useState("");
   const [isDeposit, setIsDeposit] = useState(true);
   const { user } = useFirebaseAuth();
   const formatToNumber = (s: string) => Number(s.replace(",", "."));
@@ -56,7 +59,7 @@ export function NewTransactionModal({
         name,
         price: formatToNumber(price),
         isDeposit,
-        category: "food",
+        category: category != "" ? category : "other",
         createdAt: Timestamp.now(),
       } as Transaction);
 
@@ -88,7 +91,9 @@ export function NewTransactionModal({
               bg="white.200"
               p="24px"
               value={name}
-              onChange={(e) => setName(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setName(e.target.value)
+              }
               _focus={{
                 borderBottom: "2px solid #DC1637",
               }}
@@ -110,7 +115,25 @@ export function NewTransactionModal({
                 onClick={() => setIsDeposit(false)}
               />
             </HStack>
-            <Input placeholder="Categoria" bg="white.200" p="24px" />
+            <Select
+              placeholder="Selecione a categoria"
+              data-testid="select"
+              onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                setCategory(e.target.value)
+              }
+              bg="white.300"
+              h="48px"
+              value={category}
+              _focus={{
+                borderBottom: "2px solid #DC1637",
+              }}
+            >
+              {categories.map((category) => (
+                <option key={category.id} value={category.value}>
+                  {category.label}
+                </option>
+              ))}
+            </Select>
           </Stack>
         </ModalBody>
         <ModalFooter>

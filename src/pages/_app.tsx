@@ -4,7 +4,7 @@ import { ToastContainer } from "react-toastify";
 import { FirebaseAuthProvider } from "../contexts/FirebaseAuthContext";
 import "../styles/main.css";
 import { theme } from "../themes/theme";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
