@@ -34,22 +34,14 @@ import { EditTransactionModal } from "../components/EditTransactionModal";
 import { Header } from "../components/Header";
 import { NewTransactionModal } from "../components/NewTransactionModal";
 import { useFirebaseAuth } from "../contexts/FirebaseAuthContext";
-import {
-  collection,
-  query,
-  where,
-  getDocs,
-  Timestamp,
-  orderBy,
-} from "firebase/firestore";
-import { db } from "../services/firebase";
+import { Timestamp } from "firebase/firestore";
 import { withSidebar } from "../components/hocs/withSidebar";
 import { TransactionItem } from "../components/TransactionItem";
 import { BsFilter } from "react-icons/bs";
 import Head from "next/head";
 import { categories } from "../utils/categories";
 import { CategoryIcon } from "../components/CategoryIcon";
-import { toast } from "react-toastify";
+import { useTransactions } from "../hooks/useTransactions";
 
 type Transaction = {
   id: string;
@@ -82,56 +74,24 @@ export const TransactionsPage: NextPage = () => {
     setTransactionToEdit,
   ] = useState<Transaction | null>(null);
   const router = useRouter();
-  const [isTransactionsLoading, setIsTransactionsLoading] = useState(true);
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [transactionFilter, setTransactionFilter] = useState("all");
+  const {
+    transactions,
+    isTransactionsLoading,
+    handleGetTransactions,
+    handleGetTransactionsWithCategory,
+  } = useTransactions();
 
   function handleClosingWithReloading() {
     handleCloseNewTransactionModal();
-    getTransactions();
+    handleGetTransactions();
   }
 
   function handleClosingWithTransactionClean() {
     handleCloseEditTransactionModal();
     setTransactionToEdit(null);
-    getTransactions();
+    handleGetTransactions();
   }
-
-  async function getTransactions() {
-    let q;
-    try {
-      if (transactionFilter !== "all") {
-        q = query(
-          collection(db, "transactions"),
-          orderBy("createdAt", "desc"),
-          where("authorId", "==", user?.id),
-          where("category", "==", transactionFilter)
-        );
-      } else {
-        q = query(
-          collection(db, "transactions"),
-          orderBy("createdAt", "desc"),
-          where("authorId", "==", user?.id)
-        );
-      }
-
-      const querySnapshot = await getDocs(q);
-      const transactionsList = querySnapshot.docs.map(
-        (doc) => ({ id: doc.id, ...doc.data() } as Transaction)
-      );
-      setTransactions(transactionsList);
-    } catch (err) {
-      toast.error("Erro ao carregar transações");
-    }
-  }
-
-  useEffect(() => {
-    if (user) {
-      setIsTransactionsLoading(true);
-      getTransactions();
-      setIsTransactionsLoading(false);
-    }
-  }, [user]);
 
   useEffect(() => {
     if (!isAuthLoading && !user) {
@@ -144,7 +104,7 @@ export const TransactionsPage: NextPage = () => {
   }, [transactionToEdit]);
 
   useEffect(() => {
-    getTransactions();
+    handleGetTransactionsWithCategory(transactionFilter);
   }, [transactionFilter]);
 
   return (
@@ -246,6 +206,7 @@ export const TransactionsPage: NextPage = () => {
                                       <CategoryIcon
                                         category={category.value}
                                         fontSize="16px"
+                                        color="black"
                                       />
                                       <Text ml="0.5rem">{category.label}</Text>
                                     </Flex>

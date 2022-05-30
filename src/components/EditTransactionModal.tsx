@@ -67,6 +67,10 @@ export function EditTransactionModal({
     onClose();
   }
 
+  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+    setCategory(event.target.value);
+  }
+
   async function handleDeleteTransaction() {
     const transactionRef = doc(db, `transactions/${transaction?.id}`);
 
@@ -94,7 +98,9 @@ export function EditTransactionModal({
               bg="white.300"
               p="24px"
               value={name}
-              onChange={(e) => setName(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setName(e.target.value)
+              }
               _focus={{
                 borderBottom: "2px solid #DC1637",
               }}
@@ -117,7 +123,9 @@ export function EditTransactionModal({
               />
             </HStack>
             <Select
-              onChange={(e) => setCategory(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                setCategory(e.target.value)
+              }
               bg="white.300"
               h="48px"
               data-testid="select"

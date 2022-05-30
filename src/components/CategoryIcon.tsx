@@ -11,42 +11,52 @@ import { IoMdSchool } from "react-icons/io";
 import { Icon } from "@chakra-ui/react";
 import { IconType } from "react-icons";
 
-function BaseIcon({
-  icon,
-  fontSize = "24",
-}: {
+type BaseIconProps = {
   icon: IconType;
   fontSize?: string;
-}) {
-  return <Icon fontSize={fontSize} color="red.500" as={icon} />;
-}
+  color?: string;
+};
 
-export function CategoryIcon({
-  category,
-  fontSize,
-}: {
+type CategoryIconProps = {
   category: string;
   fontSize?: string;
-}) {
+  color?: string;
+};
+
+function BaseIcon({ icon, fontSize = "24", color = "red.500" }: BaseIconProps) {
+  return <Icon fontSize={fontSize} color={color} as={icon} />;
+}
+
+export function CategoryIcon({ category, fontSize, color }: CategoryIconProps) {
   switch (category) {
     case "food":
-      return <BaseIcon fontSize={fontSize} icon={MdFastfood} />;
+      return <BaseIcon fontSize={fontSize} color={color} icon={MdFastfood} />;
     case "debt":
-      return <BaseIcon fontSize={fontSize} icon={GiTakeMyMoney} />;
+      return (
+        <BaseIcon fontSize={fontSize} color={color} icon={GiTakeMyMoney} />
+      );
     case "clothing":
-      return <BaseIcon fontSize={fontSize} icon={GiClothes} />;
+      return <BaseIcon fontSize={fontSize} color={color} icon={GiClothes} />;
     case "entertainment":
-      return <BaseIcon fontSize={fontSize} icon={MdSportsBar} />;
+      return <BaseIcon fontSize={fontSize} color={color} icon={MdSportsBar} />;
     case "health":
-      return <BaseIcon fontSize={fontSize} icon={FaPills} />;
+      return <BaseIcon fontSize={fontSize} color={color} icon={FaPills} />;
     case "house":
-      return <BaseIcon fontSize={fontSize} icon={BsFillHouseFill} />;
+      return (
+        <BaseIcon fontSize={fontSize} color={color} icon={BsFillHouseFill} />
+      );
     case "transport":
-      return <BaseIcon fontSize={fontSize} icon={MdEmojiTransportation} />;
+      return (
+        <BaseIcon
+          fontSize={fontSize}
+          color={color}
+          icon={MdEmojiTransportation}
+        />
+      );
     case "education":
-      return <BaseIcon fontSize={fontSize} icon={IoMdSchool} />;
+      return <BaseIcon fontSize={fontSize} color={color} icon={IoMdSchool} />;
     case "other":
-      return <BaseIcon fontSize={fontSize} icon={BsThreeDots} />;
+      return <BaseIcon fontSize={fontSize} color={color} icon={BsThreeDots} />;
   }
 
   return <MdCancel />;
