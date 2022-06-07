@@ -25,7 +25,6 @@ export function SummaryBox({
       w="150px"
       h="150px"
       borderRadius="16px"
-      ml="30px"
       mt="-20px"
       padding="8px"
       shadow="xl"
