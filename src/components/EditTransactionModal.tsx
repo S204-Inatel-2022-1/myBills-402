@@ -9,6 +9,7 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Select,
   Stack,
   Text,
 } from "@chakra-ui/react";
@@ -21,6 +22,7 @@ import { CurrencyInput } from "./CurrencyInput";
 import { deleteDoc, doc, Timestamp, updateDoc } from "firebase/firestore";
 import { db } from "../services/firebase";
 import { toast } from "react-toastify";
+import { categories } from "../utils/categories";
 
 type Transaction = {
   id: string;
@@ -46,6 +48,7 @@ export function EditTransactionModal({
   const [name, setName] = useState(transaction.name);
   const [price, setPrice] = useState(String(transaction.price));
   const [isDeposit, setIsDeposit] = useState(transaction.isDeposit);
+  const [category, setCategory] = useState(transaction.category);
   const formatToNumber = (s: string) => Number(s.replace(",", "."));
 
   async function handleEditTransaction() {
@@ -55,6 +58,7 @@ export function EditTransactionModal({
         name,
         price: formatToNumber(price),
         isDeposit,
+        category,
       });
       toast.success("Transação editada com sucesso");
     } catch (e) {
@@ -62,7 +66,11 @@ export function EditTransactionModal({
     }
     onClose();
   }
-  
+
+  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+    setCategory(event.target.value);
+  }
+
   async function handleDeleteTransaction() {
     const transactionRef = doc(db, `transactions/${transaction?.id}`);
 
@@ -90,7 +98,9 @@ export function EditTransactionModal({
               bg="white.300"
               p="24px"
               value={name}
-              onChange={(e) => setName(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setName(e.target.value)
+              }
               _focus={{
                 borderBottom: "2px solid #DC1637",
               }}
@@ -102,17 +112,34 @@ export function EditTransactionModal({
                 icon={BsArrowUpCircle}
                 label="Entrada"
                 isActive={isDeposit}
-                onClick={() => setIsDeposit(!isDeposit)}
+                onClick={() => setIsDeposit(true)}
               />
               <SelectorButton
                 color="red.500"
                 icon={BsArrowDownCircle}
                 label="Saída"
                 isActive={!isDeposit}
-                onClick={() => setIsDeposit(!isDeposit)}
+                onClick={() => setIsDeposit(false)}
               />
             </HStack>
-            <Input placeholder="Categoria" bg="#F4F5F6" p="24px" />
+            <Select
+              onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                setCategory(e.target.value)
+              }
+              bg="white.300"
+              h="48px"
+              data-testid="select"
+              value={category}
+              _focus={{
+                borderBottom: "2px solid #DC1637",
+              }}
+            >
+              {categories.map(({ id, label, value }) => (
+                <option key={id} value={value}>
+                  {label}
+                </option>
+              ))}
+            </Select>
           </Stack>
         </ModalBody>
 

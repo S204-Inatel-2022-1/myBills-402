@@ -14,6 +14,7 @@ import {
   onAuthStateChanged,
 } from "firebase/auth";
 import { auth } from "../services/firebase";
+import { toast } from "react-toastify";
 
 type FirebaseAuthProviderProps = {
   children: ReactNode;
@@ -43,15 +44,19 @@ export function FirebaseAuthProvider({ children }: FirebaseAuthProviderProps) {
   const [isAuthLoading, setIsAuthLoading] = useState(true);
 
   const handleLogin = async () => {
-    await setPersistence(auth, browserLocalPersistence);
-    const { user } = await signInWithPopup(auth, provider);
+    try {
+      await setPersistence(auth, browserLocalPersistence);
+      const { user } = await signInWithPopup(auth, provider);
 
-    setUser({
-      id: user.uid,
-      name: String(user.displayName),
-      email: String(user.email),
-      avatar: String(user.photoURL),
-    });
+      setUser({
+        id: user.uid,
+        name: String(user.displayName),
+        email: String(user.email),
+        avatar: String(user.photoURL),
+      });
+    } catch (err) {
+      toast.error("Erro ao fazer login");
+    }
   };
 
   const handleLogout = async () => await signOut(auth);

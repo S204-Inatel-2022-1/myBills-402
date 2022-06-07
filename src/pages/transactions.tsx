@@ -4,39 +4,44 @@ import {
   Flex,
   useDisclosure,
   Table,
+  Text,
   Thead,
   Tbody,
   Tr,
   Th,
-  Td,
   TableContainer,
   Heading,
-  Stack,
+  Spinner,
   IconButton,
-  Tag,
-  TagLeftIcon,
-  TagLabel,
+  Popover,
+  PopoverTrigger as OrigPopoverTrigger,
+  PopoverContent,
+  PopoverArrow,
+  PopoverHeader,
+  PopoverCloseButton,
+  PopoverBody,
+  PopoverFooter,
+  Portal,
+  Icon,
+  RadioGroup,
+  Radio,
+  Stack,
 } from "@chakra-ui/react";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { BiEditAlt } from "react-icons/bi";
-import { hex2rgba } from "../utils/hex2rgba";
 import { EditTransactionModal } from "../components/EditTransactionModal";
 import { Header } from "../components/Header";
-import { LoadingSplash } from "../components/LoadingSplash";
 import { NewTransactionModal } from "../components/NewTransactionModal";
 import { useFirebaseAuth } from "../contexts/FirebaseAuthContext";
-import {
-  collection,
-  query,
-  where,
-  getDocs,
-  Timestamp,
-  orderBy,
-} from "firebase/firestore";
-import { db } from "../services/firebase";
-import { BsArrowDownCircle, BsArrowUpCircle } from "react-icons/bs";
+import { Timestamp } from "firebase/firestore";
+import { withSidebar } from "../components/hocs/withSidebar";
+import { TransactionItem } from "../components/TransactionItem";
+import { BsFilter } from "react-icons/bs";
+import Head from "next/head";
+import { categories } from "../utils/categories";
+import { CategoryIcon } from "../components/CategoryIcon";
+import { useTransactions } from "../hooks/useTransactions";
 
 type Transaction = {
   id: string;
@@ -48,7 +53,11 @@ type Transaction = {
   createdAt: Timestamp;
 };
 
-const Dashboard: NextPage = () => {
+const PopoverTrigger: React.FC<{
+  children: React.ReactNode;
+}> = OrigPopoverTrigger;
+
+export const TransactionsPage: NextPage = () => {
   const { user, isAuthLoading } = useFirebaseAuth();
   const {
     isOpen: isNewTransactionModalOpen,
@@ -65,13 +74,24 @@ const Dashboard: NextPage = () => {
     setTransactionToEdit,
   ] = useState<Transaction | null>(null);
   const router = useRouter();
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [transactionFilter, setTransactionFilter] = useState("all");
+  const {
+    transactions,
+    isTransactionsLoading,
+    handleGetTransactions,
+    handleGetTransactionsWithCategory,
+  } = useTransactions();
 
-  useEffect(() => {
-    if (user) {
-      getTransactions();
-    }
-  }, [user]);
+  function handleClosingWithReloading() {
+    handleCloseNewTransactionModal();
+    handleGetTransactions();
+  }
+
+  function handleClosingWithTransactionClean() {
+    handleCloseEditTransactionModal();
+    setTransactionToEdit(null);
+    handleGetTransactions();
+  }
 
   useEffect(() => {
     if (!isAuthLoading && !user) {
@@ -83,36 +103,15 @@ const Dashboard: NextPage = () => {
     if (transactionToEdit) handleOpenEditTransactionModal();
   }, [transactionToEdit]);
 
-  function handleClosingWithReloading() {
-    handleCloseNewTransactionModal();
-    getTransactions();
-  }
-
-  function handleClosingWithTransactionClean() {
-    handleCloseEditTransactionModal();
-    setTransactionToEdit(null);
-    getTransactions();
-  }
-
-  if (isAuthLoading) {
-    return <LoadingSplash />;
-  }
-
-  async function getTransactions() {
-    const q = query(
-      collection(db, "transactions"),
-      orderBy("createdAt", "desc"),
-      where("authorId", "==", user?.id)
-    );
-    const querySnapshot = await getDocs(q);
-    const transactionsList = querySnapshot.docs.map(
-      (doc) => ({ id: doc.id, ...doc.data() } as Transaction)
-    );
-    setTransactions(transactionsList);
-  }
+  useEffect(() => {
+    handleGetTransactionsWithCategory(transactionFilter);
+  }, [transactionFilter]);
 
   return (
-    <Flex flexDir="column" bg="white.200" minH="100vh">
+    <>
+      <Head>
+        <title>MyBills | Transactions</title>
+      </Head>
       <Header />
       <NewTransactionModal
         isOpen={isNewTransactionModalOpen}
@@ -138,88 +137,107 @@ const Dashboard: NextPage = () => {
             Nova Transação
           </Button>
         </Flex>
-        <TableContainer w="100%">
-          <Table
+        {isTransactionsLoading ? (
+          <Spinner
+            position="absolute"
+            top="50%"
+            left="50%"
             size="lg"
-            w="100%"
-            h="100%"
-            sx={{
-              borderCollapse: "separate",
-              borderSpacing: "0 0.5rem",
-            }}
-            variant="customTable"
-          >
-            <Thead>
-              <Tr>
-                <Th>Categoria</Th>
-                <Th>Data</Th>
-                <Th>Título</Th>
-                <Th isNumeric>Valor</Th>
-                <Th>Tipo</Th>
-              </Tr>
-            </Thead>
-            <Tbody gap="1rem">
-              <>
-                {transactions?.map((transaction) => (
-                  <Tr key={transaction.id} boxShadow="md" bgColor="white">
-                    <Td>{transaction.category}</Td>
-                    <Td color="gray.300">
-                      {transaction.createdAt.toDate().toLocaleDateString()}
-                    </Td>
-                    <Td>{transaction.name}</Td>
-                    <Td isNumeric>
-                      {new Intl.NumberFormat("pt-BR", {
-                        style: "currency",
-                        currency: "BRL",
-                      }).format(transaction.price)}
-                    </Td>
-                    <Td py="0">
-                      {transaction.isDeposit ? (
-                        <Tag
-                          size="lg"
-                          variant="subtle"
-                          borderWidth="1px"
-                          borderColor="green.500"
-                          bg={hex2rgba("03B252", 0.1)}
-                          color="green.500"
+            color="red.500"
+          />
+        ) : (
+          <TableContainer w="100%">
+            <Table
+              size="lg"
+              w="100%"
+              h="100%"
+              sx={{
+                borderCollapse: "separate",
+                borderSpacing: "0 0.5rem",
+              }}
+              variant="customTable"
+            >
+              <Thead>
+                <Tr>
+                  <Th>Categoria</Th>
+                  <Th>Data</Th>
+                  <Th>Título</Th>
+                  <Th isNumeric>Valor</Th>
+                  <Th>Tipo</Th>
+                  <Th>
+                    <Popover>
+                      <PopoverTrigger>
+                        <Button
+                          aria-label="filter"
+                          size="sm"
+                          rounded="full"
+                          p={1}
+                          bg="green.500"
+                          color="white"
+                          shadow="md"
+                          d="flex"
+                          alignItems="center"
+                          justifyContent="center"
                         >
-                          <TagLeftIcon boxSize="1rem" as={BsArrowUpCircle} />
-                          <TagLabel>Depósito</TagLabel>
-                        </Tag>
-                      ) : (
-                        <Tag
-                          size="lg"
-                          variant="subtle"
-                          borderWidth="1px"
-                          borderColor="red.500"
-                          bg={hex2rgba("DC1637", 0.1)}
-                          color="red.500"
-                        >
-                          <TagLeftIcon boxSize="12px" as={BsArrowDownCircle} />
-                          <TagLabel>Retirada</TagLabel>
-                        </Tag>
-                      )}
-                    </Td>
-                    <Td px="1rem">
-                      <IconButton
-                        onClick={() => setTransactionToEdit(transaction)}
-                        borderRadius="50%"
-                        color="red.500"
-                        fontSize="1.2rem"
-                        bg="transparent"
-                        aria-label="edit transaction"
-                        icon={<BiEditAlt />}
-                      />
-                    </Td>
-                  </Tr>
-                ))}
-              </>
-            </Tbody>
-          </Table>
-        </TableContainer>
+                          <Icon as={BsFilter} />
+                        </Button>
+                      </PopoverTrigger>
+                      <Portal>
+                        <PopoverContent bg="white">
+                          <PopoverArrow />
+                          <PopoverHeader>Filtro por categoria</PopoverHeader>
+                          <PopoverCloseButton />
+                          <PopoverBody>
+                            <RadioGroup
+                              value={transactionFilter}
+                              onChange={setTransactionFilter}
+                            >
+                              <Stack>
+                                <Radio value="all" colorScheme="red">
+                                  Todos
+                                </Radio>
+                                {categories.map((category) => (
+                                  <Radio
+                                    key={category.id}
+                                    value={category.value}
+                                    colorScheme="red"
+                                  >
+                                    <Flex align="center">
+                                      <CategoryIcon
+                                        category={category.value}
+                                        fontSize="16px"
+                                        color="black"
+                                      />
+                                      <Text ml="0.5rem">{category.label}</Text>
+                                    </Flex>
+                                  </Radio>
+                                ))}
+                              </Stack>
+                            </RadioGroup>
+                          </PopoverBody>
+                        </PopoverContent>
+                      </Portal>
+                    </Popover>
+                  </Th>
+                </Tr>
+              </Thead>
+              <Tbody gap="1rem">
+                <>
+                  {transactions?.map((transaction) => (
+                    <TransactionItem
+                      key={transaction.id}
+                      transaction={transaction}
+                      onSelectTransaction={setTransactionToEdit}
+                    />
+                  ))}
+                </>
+              </Tbody>
+            </Table>
+          </TableContainer>
+        )}
       </Container>
-    </Flex>
+    </>
   );
 };
 
-export default Dashboard;
+export default withSidebar(TransactionsPage);
