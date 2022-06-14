@@ -16,6 +16,7 @@ import {
 import { MdLogout } from "react-icons/md";
 import { useFirebaseAuth } from "../contexts/FirebaseAuthContext";
 import { useTransactions } from "../contexts/TransactionsContext";
+import { capitalizeFirstLetter } from "../utils/capitalizeFirtsLetter";
 
 const PopoverTrigger: React.FC<{
   children: React.ReactNode;
@@ -54,16 +55,21 @@ export function Header() {
         bg="gray.900"
         translateX={10}
       >
-        <option value="all">Desde o início</option>
+        <option value="all" style={{ color: "black" }}>
+          Desde o início
+        </option>
         {availableDates?.map((date) => (
           <option
+            style={{ color: "black" }}
             value={`${date.month}-${date.year}`}
             key={`${date.month}-${date.year}`}
           >
             <>
-              {new Date(date.year, date.month).toLocaleString("default", {
-                month: "long",
-              })}{" "}
+              {capitalizeFirstLetter(
+                new Date(date.year, date.month).toLocaleString("default", {
+                  month: "long",
+                })
+              )}{" "}
               de {date.year}
             </>
           </option>

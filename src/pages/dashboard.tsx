@@ -79,13 +79,18 @@ const Dashboard: NextPage = () => {
           />
         </Flex>
       )}
-      <Flex gap="16px" ml="2rem" mt="2rem">
+      <Flex
+        gap="16px"
+        ml="2rem"
+        mt="2rem"
+        flexDir={["column", "column", "column", "row"]}
+      >
         <CategoryChart isDeposit={true} />
         <CategoryChart isDeposit={false} />
       </Flex>
-      <Flex>
+      {/* <Flex>
         <MonthChart />
-      </Flex>
+      </Flex> */}
     </Flex>
   );
 };
