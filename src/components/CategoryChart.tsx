@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useTransactions } from "../hooks/useTransactions";
+import { useTransactions } from "../contexts/TransactionsContext";
 import { getCategory } from "../utils/categories";
 import dynamic from "next/dynamic";
 import { Box, Flex } from "@chakra-ui/react";

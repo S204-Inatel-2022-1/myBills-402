@@ -83,7 +83,7 @@ const Dashboard: NextPage = () => {
         <CategoryChart isDeposit={true} />
         <CategoryChart isDeposit={false} />
       </Flex>
-      <Flex>
+      <Flex gap="16px" ml="2rem" mt="2rem">
         <MonthChart />
       </Flex>
     </Flex>
