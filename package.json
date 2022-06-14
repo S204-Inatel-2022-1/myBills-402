@@ -16,7 +16,6 @@
     "@chakra-ui/react-utils": "^1.2.3",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
-    "apexcharts": "^3.35.3",
     "firebase": "^9.6.10",
     "framer-motion": "^6",
     "next": "^12.1.5",
@@ -25,7 +24,8 @@
     "react-currency-input-field": "^3.6.4",
     "react-dom": "^18.1.0",
     "react-icons": "^4.3.1",
-    "react-toastify": "^8.2.0"
+    "react-toastify": "^8.2.0",
+    "recharts": "^2.1.10"
   },
   "devDependencies": {
     "@testing-library/dom": "^8.13.0",
