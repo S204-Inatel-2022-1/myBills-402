@@ -36,6 +36,6 @@ describe("Home/Login page", () => {
       </FirebaseAuthProvider>
     );
 
-   screen.debug();
+  
   });
 });

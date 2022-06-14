@@ -10,6 +10,8 @@ import { SummaryBox } from "../components/SummaryBox";
 import { IoIosArrowDropup, IoIosArrowDropdown } from "react-icons/io";
 import { CgArrowsExchangeV } from "react-icons/cg";
 import { useTransactions } from "../contexts/TransactionsContext";
+import { CategoryChart } from "../components/CategoryChart";
+import { MonthChart } from "../components/MonthChart";
 
 const Dashboard: NextPage = () => {
   const { user, isAuthLoading } = useFirebaseAuth();
@@ -48,7 +50,7 @@ const Dashboard: NextPage = () => {
       <Header />
 
       {!isTransactionsLoading && (
-        <Flex zIndex="2">
+        <Flex gap="2rem" ml="2rem" zIndex="2">
           <SummaryBox
             title="Depósitos"
             value={totalDeposits}
@@ -77,6 +79,13 @@ const Dashboard: NextPage = () => {
           />
         </Flex>
       )}
+      <Flex gap="16px" ml="2rem" mt="2rem">
+        <CategoryChart isDeposit={true} />
+        <CategoryChart isDeposit={false} />
+      </Flex>
+      <Flex>
+        <MonthChart />
+      </Flex>
     </Flex>
   );
 };
