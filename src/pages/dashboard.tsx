@@ -9,7 +9,7 @@ import { useFirebaseAuth } from "../contexts/FirebaseAuthContext";
 import { SummaryBox } from "../components/SummaryBox";
 import { IoIosArrowDropup, IoIosArrowDropdown } from "react-icons/io";
 import { CgArrowsExchangeV } from "react-icons/cg";
-import { useTransactions } from "../hooks/useTransactions";
+import { useTransactions } from "../contexts/TransactionsContext";
 
 const Dashboard: NextPage = () => {
   const { user, isAuthLoading } = useFirebaseAuth();
@@ -48,7 +48,7 @@ const Dashboard: NextPage = () => {
       <Header />
 
       {!isTransactionsLoading && (
-        <Flex>
+        <Flex zIndex="2">
           <SummaryBox
             title="Depósitos"
             value={totalDeposits}

@@ -41,7 +41,7 @@ import { BsFilter } from "react-icons/bs";
 import Head from "next/head";
 import { categories } from "../utils/categories";
 import { CategoryIcon } from "../components/CategoryIcon";
-import { useTransactions } from "../hooks/useTransactions";
+import { useTransactions } from "../contexts/TransactionsContext";
 
 type Transaction = {
   id: string;
