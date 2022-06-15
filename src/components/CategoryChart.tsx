@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useTransactions } from "../contexts/TransactionsContext";
 import { getCategory } from "../utils/categories";
-import { Flex, Text } from "@chakra-ui/react";
+import { Flex, GridItem, Text } from "@chakra-ui/react";
 import {
   PieChart,
   Pie,
@@ -58,7 +58,6 @@ export function CategoryChart({ isDeposit }: CategoryChartProps) {
       percent: (values[i] / values.reduce((acc, i) => acc + i)) * 100,
     }));
 
-    console.log(data);
     setChartData(data.filter((item) => item.value > 0));
   }
 
@@ -71,11 +70,14 @@ export function CategoryChart({ isDeposit }: CategoryChartProps) {
   }
 
   return (
-    <Flex
+    <GridItem
+      display="flex"
+      colSpan={1}
+      rowStart={isDeposit ? 1 : [2, 2, 1]}
       shadow="xl"
       bg="white"
       borderRadius="8px"
-      width={["50%", "50%", "50%", "450px"]}
+      width="100%"
       height="300px"
       flexDir="column"
       p="1rem"
@@ -85,7 +87,7 @@ export function CategoryChart({ isDeposit }: CategoryChartProps) {
       <Text fontWeight="semibold" color="#414141">
         {isDeposit ? "Depósitos" : "Retiradas"}
       </Text>
-      <ResponsiveContainer>
+      <ResponsiveContainer width="99%">
         <PieChart>
           <Pie
             data={chartData}
@@ -107,15 +109,17 @@ export function CategoryChart({ isDeposit }: CategoryChartProps) {
             align="center"
             verticalAlign="bottom"
             wrapperStyle={{ whiteSpace: "break-spaces" }}
-            payload={chartData.map((item, index) => ({
-              id: item.label,
-              type: "square",
-              value: `${item.label} (${item.percent.toFixed(0)}%)`,
-              color: COLORS[index % COLORS.length],
-            }))}
+            payload={chartData
+              .sort((a, b) => b.percent - a.percent)
+              .map((item, index) => ({
+                id: item.label,
+                type: "square",
+                value: `${item.label} (${item.percent.toFixed(0)}%)`,
+                color: COLORS[index % COLORS.length],
+              }))}
           />
         </PieChart>
       </ResponsiveContainer>
-    </Flex>
+    </GridItem>
   );
 }

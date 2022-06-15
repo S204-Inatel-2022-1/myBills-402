@@ -42,6 +42,7 @@ import Head from "next/head";
 import { categories } from "../utils/categories";
 import { CategoryIcon } from "../components/CategoryIcon";
 import { useTransactions } from "../contexts/TransactionsContext";
+import { MobileMenu } from "../components/MobileMenu";
 
 type Transaction = {
   id: string;
@@ -69,6 +70,12 @@ export const TransactionsPage: NextPage = () => {
     onOpen: handleOpenEditTransactionModal,
     onClose: handleCloseEditTransactionModal,
   } = useDisclosure();
+  const {
+    isOpen: isMobileMenuOpen,
+    onOpen: handleOpenMobileMenu,
+    onClose: handleCloseMobileMenu,
+  } = useDisclosure();
+
   const [
     transactionToEdit,
     setTransactionToEdit,
@@ -112,7 +119,8 @@ export const TransactionsPage: NextPage = () => {
       <Head>
         <title>MyBills | Transactions</title>
       </Head>
-      <Header />
+      <Header openMobileMenu={handleOpenMobileMenu} />
+      <MobileMenu onClose={handleCloseMobileMenu} isOpen={isMobileMenuOpen} />
       <NewTransactionModal
         isOpen={isNewTransactionModalOpen}
         onClose={handleClosingWithReloading}

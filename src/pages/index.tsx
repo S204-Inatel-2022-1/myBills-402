@@ -7,7 +7,6 @@ import {
   Stack,
   Text,
   Icon,
-  Spinner,
 } from "@chakra-ui/react";
 
 import { AiOutlineGoogle } from "react-icons/ai";
@@ -15,6 +14,7 @@ import { useFirebaseAuth } from "../contexts/FirebaseAuthContext";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { LoadingSplash } from "../components/LoadingSplash";
+import Head from "next/head";
 
 const Home: NextPage = () => {
   const { handleLogin, user, isAuthLoading } = useFirebaseAuth();
@@ -32,6 +32,9 @@ const Home: NextPage = () => {
 
   return (
     <SimpleGrid columns={[1, 1, 2]} h="100vh" bg="#1B1B1F">
+      <Head>
+        <title>MyBills | Login</title>
+      </Head>
       <Flex
         display={["none", "none", "flex"]}
         bgImage="/myBillsBg.svg"

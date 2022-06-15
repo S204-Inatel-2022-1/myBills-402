@@ -22,10 +22,9 @@ export function SummaryBox({
     <Flex
       flexDir={"column"}
       bg={bgColor}
-      w="150px"
+      w={{ sm: "100%", md: "150px" }}
       h="150px"
       borderRadius="16px"
-      mt="-20px"
       padding="8px"
       shadow="xl"
     >

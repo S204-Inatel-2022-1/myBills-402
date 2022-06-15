@@ -35,6 +35,7 @@ type TransactionContextProps = {
   transactions: Transaction[];
   isTransactionsLoading: boolean;
   availableDates: AvailableDate[];
+  selectedDate: AvailableDate | null;
   handleSelectDate: (p: string) => void;
   handleGetTransactions: () => void;
   handleGetTransactionsWithCategory: (category: string) => void;
@@ -149,7 +150,11 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
   useEffect(() => {
     if (user) {
       setIsTransactionsLoading(true);
-      handleGetTransactions();
+      if (selectedDate !== null) {
+        handleGetTransactionsByMonth();
+      } else {
+        handleGetTransactions();
+      }
       setIsTransactionsLoading(false);
     }
   }, [user]);
@@ -168,6 +173,7 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
         transactions,
         isTransactionsLoading,
         availableDates,
+        selectedDate,
         handleSelectDate,
         handleGetTransactions,
         handleGetTransactionsWithCategory,
