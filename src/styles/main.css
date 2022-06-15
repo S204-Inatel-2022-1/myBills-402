@@ -9,3 +9,7 @@
 .currency-input:focus {
   border-bottom: 2px solid #dc1637;
 }
+
+select option {
+  background: black;
+}

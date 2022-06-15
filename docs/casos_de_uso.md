@@ -1,9 +1,5 @@
 # My Bills 402
 
-<h1 align="center">
-<img src="./images/login_page.png"
-width="50%"/>
-</h1>
 
 ## Caso de uso #1
 
@@ -16,8 +12,9 @@ Fluxo Normal:
 - Clicar no botão de login
 - Escolher uma conta do Google
 - Usuário redirecionado para dashboard
+
 <h1 align="center">
-<img src="./images/logout.png"
+<img src="./images/login_page.png"
 width="50%"/>
 </h1>
 
@@ -34,7 +31,7 @@ Fluxo normal:
 - Usuário redirecionado para tela de login
 
 <h1 align="center">
-<img src="./images/create_transaction.png" width="50%"/>
+<img src="./images/logout.png" width="50%"/>
 </h1>
 
 ## Caso de uso #3
@@ -67,6 +64,12 @@ Fluxo normal:
 - Clicar no ícone de editar da transação escolhida
 - Alterar os dados que deseja
 - Clicar em salvar
+
+
+<h1 align="center">
+<img src="./images/edit_transaction.png"
+width="50%"/>
+</h1>
   
 ## Caso de uso #5
 ### Deletar transação
@@ -78,4 +81,24 @@ Fluxo normal:
 - Acessar pagina de transações
 - Clicar no ícone de editar da transação escolhida
 - Clicar em deletar
-  
+
+<h1 align="center">
+<img src="./images/edit_transaction.png"
+width="50%"/>
+</h1>
+
+## Caso de uso #6
+
+### Filtrar transações por categoria
+
+Autor: Usuário do site
+
+Fluxo normal:
+  - Acessar a página de transações
+  - Clicar no ícone de filtro
+  - Selecionar uma categoria 
+
+<h1 align="center">
+<img src="./images/filter_transaction.png"
+width="50%"/>
+</h1>
