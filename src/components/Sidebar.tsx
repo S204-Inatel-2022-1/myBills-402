@@ -22,6 +22,7 @@ export function Sidebar() {
       bottom="0"
       left="0"
       boxShadow="lg"
+      zIndex="2"
     >
       <Box bg="red.500" p="1rem">
         <Image src="/mybillslogo.svg" alt="my bills" />

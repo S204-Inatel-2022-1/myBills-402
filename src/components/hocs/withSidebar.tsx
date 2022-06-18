@@ -1,4 +1,4 @@
-import { Flex } from "@chakra-ui/react";
+import { Flex, useBreakpointValue, useDisclosure } from "@chakra-ui/react";
 import { NextPage } from "next";
 import { useFirebaseAuth } from "../../contexts/FirebaseAuthContext";
 import { LoadingSplash } from "../LoadingSplash";
@@ -7,6 +7,10 @@ import { Sidebar } from "../Sidebar";
 export function withSidebar(Component: NextPage) {
   return function Provider(pageProps: any) {
     const { isAuthLoading } = useFirebaseAuth();
+    const isSidebarVisible = useBreakpointValue({
+      md: true,
+      sm: false,
+    });
 
     if (isAuthLoading) {
       return <LoadingSplash />;
@@ -14,13 +18,13 @@ export function withSidebar(Component: NextPage) {
 
     return (
       <Flex justify="end">
-        <Sidebar />
+        {isSidebarVisible && <Sidebar />}
         <Flex
           flexDir="column"
           bg="white.200"
-          w="page"
+          w={isSidebarVisible ? "page" : "100vw"}
           minH="100vh"
-          ml="sidebar"
+          ml={isSidebarVisible ? "4rem" : "0"}
         >
           <Component {...pageProps} />
         </Flex>
