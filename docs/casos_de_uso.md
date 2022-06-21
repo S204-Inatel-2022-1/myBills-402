@@ -102,3 +102,25 @@ Fluxo normal:
 <img src="./images/filter_transaction.png"
 width="50%"/>
 </h1>
+
+## Caso de uso #7 
+
+### Filtrar transações por mês
+
+Autor: Usuário do site
+
+Fluxo normal: 
+  - Acessar alguma página com o header disponível
+  - Clicar no select de mês
+  - Selecionar um mês desejado
+  
+## Caso de uso #8 
+
+### Gerar gráficos das transações
+
+Autor: Usuário do site
+
+Fluxo normal:
+  - Acessar a página de dashboard
+  - Gráficos de acordo com os gastos e depósitos são gerados
+  
